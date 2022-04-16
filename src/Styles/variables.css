@@ -1,0 +1,21 @@
+@import url(https://lekhni.netlify.app/css/components.css);
+
+:root {
+  --primary-color: #1a202c;
+  --primary-color-light: #2c3341;
+  --secondary-color: #f5deb3;
+  --off-white: #e4e0e0;
+  --wheat: wheat;
+}
+
+/* Reset */
+
+body {
+  margin: 0;
+}
+
+/* Adding styles */
+
+body {
+  background-color: var(--primary-color-light);
+}

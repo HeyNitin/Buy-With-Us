@@ -1,0 +1,9 @@
+.products-container {
+  left: unset;
+  width: 100%;
+  gap: 2.3rem;
+}
+
+.fa-heart {
+  color: red;
+}

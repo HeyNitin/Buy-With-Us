@@ -1,0 +1,51 @@
+.nav-header {
+  display: flex;
+  background-color: var(--primary-color);
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  padding: 1rem;
+  box-sizing: border-box;
+  height: 6rem;
+  border-bottom: 1px ridge var(--black);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1;
+}
+
+.nav-header .button {
+  height: 1.5rem;
+  width: 4rem;
+  text-align: center;
+  background-color: var(--wheat);
+  color: var(--black);
+  margin: -0.4rem 0 0 1rem;
+}
+
+.nav-header .logo {
+  all: unset;
+  cursor: pointer;
+  font-size: 1.5rem;
+  margin-right: auto;
+}
+
+.nav-header .button:hover {
+  background-color: var(--white);
+}
+
+.nav-header .material-icons {
+  font-size: 1.7rem;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  margin-left: auto;
+}
+
+a:any-link {
+  all: unset;
+}
+
+.active:first-child {
+  border-bottom: 1px solid var(--white);
+}

@@ -7,21 +7,61 @@ import { v4 as uuid } from "uuid";
 
 export const categories = [
   {
-    _id: uuid(),
-    categoryName: "fiction",
-    description:
-      "literature in the form of prose, especially novels, that describes imaginary events and people",
+    id: uuid(),
+    categoryName: "Men's Collection",
+    img: "https://i.ibb.co/HBkXKXZ/Men-s-collection-1.jpg",
+    size: "small",
+    description: "Get the latest treds in this section"
   },
   {
-    _id: uuid(),
-    categoryName: "non-fiction",
-    description:
-      "Non-fiction is writing that gives information or describes real events, rather than telling a story.",
+    id: uuid(),
+    categoryName: "Women's Collection",
+    img: "https://i.ibb.co/7bgXdh0/Women-s-collection-1.jpg",
+    size: "small",
+    description: "Get the latest treds in this section"
   },
   {
-    _id: uuid(),
-    categoryName: "horror",
-    description:
-      "Meant to cause discomfort and fear for both the character and readers, horror writers often make use of supernatural and paranormal elements in morbid stories that are sometimes a little too realistic.",
+    id: uuid(),
+    categoryName: "Kid's Collection",
+    img: "https://i.ibb.co/rmF1TQ4/Kid-s-collection-1.jpg",
+    size: "small",
+    description: "Get the latest treds in this section"
   },
+  {
+    id: uuid(),
+    categoryName: "Ethnic Wears",
+    img: "https://i.ibb.co/n7ZvL2c/Ethnic-wear-1.jpg",
+    size: "small",
+    description: "Get the latest Summer treds in this section"
+  },
+  {
+    id: uuid(),
+    categoryName: "Traditional Clothing",
+    img: "https://i.ibb.co/yVSrPmP/Traditional-clothing-1.jpg",
+    size: "small",
+    description: "Get the latest treds in this section"
+  },
+  {
+    id: uuid(),
+    categoryName: "Newly Launched",
+    img: "https://i.ibb.co/Vvhqkym/matheus-ferrero-Tkr-Rvwxjb-8-unsplash-1.jpg",
+    size: "large",
+    description: "Get the latest treds in this section"
+  },
+  {
+    id: uuid(),
+    categoryName: "Newly Launched",
+    img: "https://i.ibb.co/7SdMy4r/Men-s-collection.jpg",
+    size: "medium",
+    heading: "Summer Collection",
+    description: "Get the latest Summer treds in this section"
+  },
+  {
+    id: uuid(),
+    categoryName: "Newly Launched",
+    img: "https://i.ibb.co/7SdMy4r/Men-s-collection.jpg",
+    size: "medium",
+    heading: "Summer Collection",
+    description: "Get the latest Summer treds in this section"
+  }
 ];
