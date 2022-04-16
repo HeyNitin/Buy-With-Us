@@ -1,0 +1,89 @@
+.homepage-catagories {
+  display: flex;
+  margin-top: 6rem;
+}
+
+.homepage-catagories .card {
+  padding: 0;
+}
+
+.homepage-catagories .card-onimage {
+  height: 8rem;
+  width: 13rem;
+  margin-top: 2rem;
+}
+
+.homepage-catagories .card-onimage img {
+  height: 8rem;
+  width: 13rem;
+}
+
+.homepage-catagories .card-onimage .header {
+  color: var(--black);
+  background-color: var(--white);
+  align-self: center;
+  text-align: center;
+  width: 13rem;
+}
+
+.homepage-banner .card-onimage {
+  width: 95%;
+  padding: 0rem;
+  margin: 0 auto 1rem auto;
+  height: 23rem;
+}
+
+.homepage-banner .card img {
+  width: 100%;
+  height: 23rem;
+}
+
+.homepage-banner .card-onimage .header {
+  color: var(--black);
+  background-color: var(--white);
+  align-self: center;
+  text-align: center;
+  width: 100%;
+}
+
+.homepage-banner .card-onimage .header,
+.homepage-catagories .card-onimage .header {
+  cursor: pointer;
+}
+
+.homepage-collection {
+  display: flex;
+  gap: 3rem;
+  width: 90%;
+  margin: 0 auto 0 auto;
+}
+
+.homepage-collection .card img {
+  width: 15rem;
+  height: 15rem;
+}
+
+.homepage-collection .card {
+  background-color: var(--off-white);
+  color: var(--black);
+  height: 15rem;
+}
+
+.homepage-collection .card .content {
+  height: 17rem;
+}
+
+.homepage-collection .card .content .footer a p {
+  font-weight: bold;
+  font-size: larger;
+}
+
+.homepage-collection .card .content .footer p:hover {
+  background-color: unset;
+  padding: unset;
+  cursor: unset;
+}
+
+.card .header a {
+  font-weight: bold;
+}

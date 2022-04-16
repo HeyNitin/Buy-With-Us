@@ -1,0 +1,96 @@
+.products-sidebar {
+  color: white;
+  width: 14rem;
+  border-right: 1px ridge var(--black);
+  padding: 1rem;
+  position: fixed;
+  top: 6rem;
+  z-index: 1;
+  height: calc(100vh - 6rem);
+  box-sizing: border-box;
+}
+
+.products-sidebar .button {
+  text-decoration: underline;
+  position: absolute;
+  right: 1rem;
+  top: 2rem;
+  font-weight: bolder;
+}
+
+.products-sidebar p {
+  font-weight: bolder;
+}
+
+.products-container {
+  position: relative;
+  padding: 2rem;
+  top: 6rem;
+  left: 14rem;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 13rem);
+  gap: 2.8rem;
+  width: calc(100% - 14rem);
+}
+
+.products-container .card {
+  width: 13rem;
+  height: 23rem;
+  padding: 0;
+  background-color: var(--white);
+  border-radius: 0;
+  margin: 0;
+  position: relative;
+  margin: auto;
+}
+
+.products-container .card img {
+  width: 13rem;
+  height: 15rem;
+  border-radius: unset;
+}
+
+.products-container .card .header > * {
+  text-align: center;
+  margin: 0 0 0.5rem 0;
+}
+
+.products-container .card .header {
+  height: fit-content;
+}
+
+.products-container .card .footer .button {
+  width: 13rem;
+  padding: 1rem;
+  box-sizing: border-box;
+  background-color: var(--primary-color);
+  height: 100%;
+  border-radius: 0;
+  color: var(--white);
+  text-align: center;
+}
+
+.products-container .card .badge-square {
+  background-color: unset;
+  opacity: unset;
+  padding: 0;
+  left: unset;
+  right: 0.3rem;
+  border-radius: 5rem;
+  width: 2rem;
+  text-align: center;
+  align-self: center;
+  font-weight: bolder;
+}
+
+.products-container .card .badge-square .material-icons {
+  color: var(--white);
+}
+
+.fa {
+  font-size: 1.2rem;
+  background-color: var(--white);
+  padding: 0.4rem;
+  border-radius: 50%;
+}

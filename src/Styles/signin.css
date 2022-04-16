@@ -1,0 +1,58 @@
+.container {
+  margin: 9rem auto 2rem auto;
+  background-color: var(--white);
+  height: fit-content;
+  width: 22rem;
+  border-radius: 5px;
+  padding: 0.5rem 2rem 0.5rem 2rem;
+  box-sizing: border-box;
+}
+
+.container input {
+  width: 17.4rem;
+}
+
+.container p:nth-child(1) {
+  margin: 1rem;
+}
+
+.container input {
+  margin: 0 0.5rem 1rem 0;
+}
+
+.container #tnc,
+.container #remember-me {
+  width: 1rem;
+  margin: 0;
+}
+
+.container div {
+  display: inline-block;
+  display: flex;
+  align-items: center;
+  margin-top: -0.5rem;
+}
+
+.container div label {
+  margin-right: auto;
+}
+
+.container .footer {
+  display: block;
+}
+
+.container .footer .button:nth-child(1) {
+  width: 95%;
+  background-color: var(--primary-color);
+  color: var(--white);
+  text-align: center;
+  padding: 0.5rem;
+  margin: 2rem 0 0 0;
+}
+
+.container .footer .button:nth-child(2) {
+  display: flex;
+  width: 95%;
+  justify-content: center;
+  margin: 1rem 0 0.5rem 0;
+}
