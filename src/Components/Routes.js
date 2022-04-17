@@ -6,17 +6,35 @@ import Wishlist from "../Pages/Wishlist";
 import Signup from "../Pages/Signup";
 import Login from "../Pages/Login";
 import Products from "../Pages/Products";
+import Error404 from "../Pages/Error404";
+import RequireAuth from "./RequireAuth";
 
 const Routes = () => {
   return (
     <R>
       <Route path="/" element={<Home />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/wishlist" element={<Wishlist />} />
+      <Route
+        path="/cart"
+        element={
+          <RequireAuth>
+            {" "}
+            <Cart />{" "}
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/wishlist"
+        element={
+          <RequireAuth>
+            {" "}
+            <Wishlist />{" "}
+          </RequireAuth>
+        }
+      />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/products" element={<Products />} />
-      <Route path="*" element={<div>Error 404</div>} />
+      <Route path="*" element={<Error404 />} />
     </R>
   );
 };
