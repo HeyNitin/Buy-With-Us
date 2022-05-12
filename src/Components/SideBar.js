@@ -97,6 +97,7 @@ const SideBar = ({ state, dispatch }) => {
           type="radio"
           name="rating"
           id="fourstar"
+          checked={state.ratingChecked[3]}
         />
         <label htmlFor="fourstar">4 Stars & above</label> <br />
         <input
@@ -104,6 +105,7 @@ const SideBar = ({ state, dispatch }) => {
           type="radio"
           name="rating"
           id="threestar"
+          checked={state.ratingChecked[2]}
         />
         <label htmlFor="threestar">3 Stars & above</label> <br />
         <input
@@ -111,6 +113,7 @@ const SideBar = ({ state, dispatch }) => {
           type="radio"
           name="rating"
           id="twostar"
+          checked={state.ratingChecked[1]}
         />
         <label htmlFor="twostar">2 Stars & above</label> <br />
         <input
@@ -118,6 +121,7 @@ const SideBar = ({ state, dispatch }) => {
           type="radio"
           name="rating"
           id="onestar"
+          checked={state.ratingChecked[0]}
         />
         <label htmlFor="onestar">1 Stars & above</label> <br />
         <p>Sort by</p>
@@ -126,6 +130,7 @@ const SideBar = ({ state, dispatch }) => {
           type="radio"
           id="LTH"
           name="sort"
+          checked={state.priceChecked[0]}
         />
         <label htmlFor="LTH">Price - Low to High</label> <br />
         <input
@@ -133,6 +138,7 @@ const SideBar = ({ state, dispatch }) => {
           type="radio"
           id="HTL"
           name="sort"
+          checked={state.priceChecked[1]}
         />
         <label htmlFor="HTL">Price - High to low</label>
       </div>

@@ -21,7 +21,8 @@
 }
 
 .container #tnc,
-.container #remember-me {
+.container #remember-me,
+.container #defaultCredentials {
   width: 1rem;
   margin: 0;
 }
@@ -30,7 +31,7 @@
   display: inline-block;
   display: flex;
   align-items: center;
-  margin-top: -0.5rem;
+  margin-top: 0;
 }
 
 .container div label {

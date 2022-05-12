@@ -1,8 +1,11 @@
 {
-  "name": "bwu-login",
+  "name": "bwu-cart",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "6.1.1",
+    "@fortawesome/free-solid-svg-icons": "6.1.1",
+    "@fortawesome/react-fontawesome": "0.1.18",
     "axios": "^0.21.4",
     "dayjs": "^1.10.7",
     "jwt-decode": "^3.1.2",

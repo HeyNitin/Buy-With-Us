@@ -17,6 +17,20 @@ const loginReducer = (state, action) => {
         error: true,
         errorMsg: action.payload || "Wrong Credentials"
       };
+    case "defaultCredentials":
+      return state.defaultCredentials
+        ? {
+            ...state,
+            email: "",
+            password: "",
+            defaultCredentials: action.payload
+          }
+        : {
+            ...state,
+            email: "adarshbalika@gmail.com",
+            password: "adarshbalika",
+            defaultCredentials: action.payload
+          };
     default:
       break;
   }
@@ -93,6 +107,17 @@ const Login = () => {
           type="checkbox"
         />
         <label htmlFor="remember-me">Remember me</label>
+      </div>
+      <div>
+        <input
+          onClick={(e) =>
+            dispatch({ type: "defaultCredentials", payload: e.target.checked })
+          }
+          value={state.defaultCredentials}
+          id="defaultCredentials"
+          type="checkbox"
+        />
+        <label htmlFor="defaultCredentials">Default Credentials</label>
       </div>
       <div className="footer">
         <button className="button" onClick={() => loginHandler()}>

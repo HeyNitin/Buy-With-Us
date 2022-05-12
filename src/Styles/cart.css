@@ -25,7 +25,7 @@
 .cart-container .cart-products .card {
   background-color: var(--white);
   height: 14rem;
-  width: 25rem;
+  width: 26rem;
   margin: 1rem 0 1rem 0;
   padding: 0;
 }
@@ -116,4 +116,8 @@
 
 .checkout-box .heading-sub {
   margin-top: 0;
+}
+
+.mrp {
+  text-decoration: line-through;
 }

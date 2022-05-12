@@ -9,10 +9,12 @@ const Wishlist = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get("/api/user/wishlist", {
-        headers: { authorization: token }
-      });
-      setWishlist((wl) => [...res.data.wishlist]);
+      try {
+        const res = await axios.get("/api/user/wishlist", {
+          headers: { authorization: token }
+        });
+        setWishlist((wl) => [...res.data.wishlist]);
+      } catch (error) {}
     })();
   }, [token]);
 
