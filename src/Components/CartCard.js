@@ -37,12 +37,12 @@ const CartCard = ({ product, setCart }) => {
     );
     setCart([...res.data.cart]);
   };
-  const decreaseQuantity = async () => {
-    const res = await axios.delete(`/api/user/cart/${product._id}`, {
-      headers: { authorization: token }
-    });
-    setCart([...res.data.cart]);
-  };
+  // const decreaseQuantity = async () => {
+  //   const res = await axios.delete(`/api/user/cart/${product._id}`, {
+  //     headers: { authorization: token }
+  //   });
+  //   setCart([...res.data.cart]);
+  // };
 
   return (
     <div className="card card-horizental">
@@ -52,14 +52,11 @@ const CartCard = ({ product, setCart }) => {
         <div className="header">
           <p>{title}</p>
           <p className="heading-sub final-price">₹{price - discount} </p>
-          <p className="text-grey mrp">₹{price} </p>
-          <p className="text-grey">{(discount * 100) / price}% off</p>
+          <p className="text-grey mrp">₹{price}</p>
+          <p className="text-grey"> {~~((discount * 100) / price)}% off</p>
           <div className="quantity">
             <p>Quantity</p>
-            <button
-              className="button quantity-d"
-              onClick={() => decreaseQuantity()}
-            >
+            <button className="button quantity-d" onClick={() => {}}>
               -
             </button>
             <input placeholder={product.qty} />
