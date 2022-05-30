@@ -61,7 +61,7 @@ export const categories = [
     categoryName: "Newly Launched",
     img: "https://i.ibb.co/7SdMy4r/Men-s-collection.jpg",
     size: "medium",
-    heading: "Summer Collection",
-    description: "Get the latest Summer treds in this section"
+    heading: "Winter Collection",
+    description: "Get the latest Winter treds in this section"
   }
 ];

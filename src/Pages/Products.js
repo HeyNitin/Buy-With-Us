@@ -20,16 +20,24 @@ const productReducer = (state, action) => {
     case "Summer Collection":
       return { ...state, isSummerCollection: action.payload };
     case "Rating":
-      return { ...state, rating: action.payload };
+      return {
+        ...state,
+        rating: action.payload,
+        ratingChecked: [...state.ratingChecked].map((item, index) =>
+          index === action.payload - 1 ? true : false
+        )
+      };
     case "highLow":
       return {
         ...state,
-        allProducts: state.allProducts.sort((a, b) => b.price - a.price)
+        allProducts: state.allProducts.sort((a, b) => b.price - a.price),
+        priceChecked: [false, true]
       };
     case "lowHigh":
       return {
         ...state,
-        allProducts: state.allProducts.sort((a, b) => a.price - b.price)
+        allProducts: state.allProducts.sort((a, b) => a.price - b.price),
+        priceChecked: [true, false]
       };
     case "setProducts":
       return {
@@ -46,7 +54,11 @@ const productReducer = (state, action) => {
         isEthnicWears: false,
         isTraditionalClothing: false,
         isNewlyLaunched: false,
-        isSummerCollection: false
+        isSummerCollection: false,
+        ratingChecked: [false, false, false, false],
+        priceChecked: [false, false],
+        rating: 1,
+        allProducts: state.allProducts.sort(() => Math.random() - 0.5)
       };
 
     default:
@@ -63,43 +75,47 @@ const initialValue = {
   isNewlyLaunched: false,
   isSummerCollection: false,
   rating: 1,
-  allProducts: []
+  allProducts: [],
+  ratingChecked: [false, false, false, false],
+  priceChecked: [false, false]
 };
 
 const Product = () => {
   const [state, dispatch] = useReducer(productReducer, initialValue);
 
-  const filteredProducts = state.allProducts
-    .filter((data) =>
-      state.isMenClothing ? data.categoryName.includes("Men Clothing") : data
-    )
-    .filter((data) =>
-      state.isWomenClothing
-        ? data.categoryName.includes("Women Clothing")
-        : data
-    )
-    .filter((data) =>
-      state.isKidsClothing ? data.categoryName.includes("Kids Clothing") : data
-    )
-    .filter((data) =>
-      state.isEthnicWears ? data.categoryName.includes("Ethnic Wears") : data
-    )
-    .filter((data) =>
-      state.isTraditionalClothing
-        ? data.categoryName.includes("Traditional Clothing")
-        : data
-    )
-    .filter((data) =>
-      state.isNewlyLaunched
-        ? data.categoryName.includes("Newly Launched")
-        : data
-    )
-    .filter((data) =>
-      state.isSummerCollection
-        ? data.categoryName.includes("Summer Collection")
-        : data
-    )
-    .filter((data) => data.rating >= state.rating);
+  const finalProductReducer = (product) => {
+    const categories = {
+      "Men Clothing": state.isMenClothing,
+      "Women Clothing": state.isWomenClothing,
+      "Kids Clothing": state.isKidsClothing,
+      "Ethnic Wears": state.isEthnicWears,
+      "Traditional Clothing": state.isTraditionalClothing,
+      "Newly Launched": state.isNewlyLaunched,
+      "Summer Collection": state.isSummerCollection
+    };
+
+    let checkboxApplied = false;
+
+    for (let obj in categories) {
+      if (categories[obj]) {
+        checkboxApplied = true;
+        break;
+      }
+    }
+
+    if (checkboxApplied) {
+      for (let category of product.categoryName) {
+        if (categories[category]) {
+          return true;
+        }
+      }
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const filteredProducts = state.allProducts.filter(finalProductReducer);
 
   useEffect(() => {
     (async () => {

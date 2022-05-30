@@ -1,9 +1,12 @@
 import { useAuth } from "../Contexts/AuthContext";
+import { useLength } from "../Contexts/LengthContext";
 import axios from "axios";
 
 const WishlistCard = ({ product, setWishlist }) => {
   const { img, title, price } = product;
   const { token } = useAuth();
+  const { setWishlistLength } = useLength();
+
   const addToCart = async () => {
     if (token) {
       await axios.post(
@@ -13,20 +16,16 @@ const WishlistCard = ({ product, setWishlist }) => {
           headers: { authorization: token }
         }
       );
-      await axios.delete(`/api/user/wishlist/${product._id}`, {
-        headers: { authorization: token }
-      });
       removeFromWishlist();
     }
   };
 
   const removeFromWishlist = async () => {
-    await axios.delete(`/api/user/wishlist/${product._id}`, {
+    const res = await axios.delete(`/api/user/wishlist/${product._id}`, {
       headers: { authorization: token }
     });
-    setWishlist((wl) => {
-      return wl.filter((data) => data._id !== product._id);
-    });
+    setWishlist([...res.data.wishlist]);
+    setWishlistLength([...res.data.wishlist].length);
   };
 
   return (

@@ -1,21 +1,32 @@
 import axios from "axios";
 import { useAuth } from "../Contexts/AuthContext";
+import { useLength } from "../Contexts/LengthContext";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const ProductCard = ({ product }) => {
   const { title, price, img, rating } = product;
   const { token } = useAuth();
   const Navigate = useNavigate();
+  const { setWishlistLength, setCartLength } = useLength();
+  const [inCart, setInCart] = useState(false);
+  const [inWishList, setInWishList] = useState(false);
 
   const addToCart = async () => {
     if (token) {
-      await axios.post(
-        "/api/user/cart",
-        { product },
-        {
-          headers: { authorization: token }
-        }
-      );
+      if (!inCart) {
+        const res = await axios.post(
+          "/api/user/cart",
+          { product },
+          {
+            headers: { authorization: token }
+          }
+        );
+        setCartLength(res.data.cart.length);
+      } else {
+        Navigate("/cart");
+      }
+      setInCart((val) => !val);
     } else {
       Navigate("/login");
     }
@@ -23,13 +34,15 @@ const ProductCard = ({ product }) => {
 
   const addToWishlist = async () => {
     if (token) {
-      await axios.post(
+      const res = await axios.post(
         "/api/user/wishlist",
         { product },
         {
           headers: { authorization: token }
         }
       );
+      setWishlistLength(res.data.wishlist.length);
+      setInWishList((val) => !val);
     } else {
       Navigate("/login");
     }
@@ -44,13 +57,16 @@ const ProductCard = ({ product }) => {
         <p>Ratings - {rating}/5</p>
       </div>
       <div onClick={() => addToWishlist()} className="badge-square">
-        <i style={{ color: "black" }} className="fa fa-heart-o material-icons">
+        <i
+          style={{ color: inWishList ? "red" : "black" }}
+          className="fa fa-heart-o material-icons"
+        >
           favorite_border
         </i>
       </div>
       <footer className="footer">
         <button onClick={() => addToCart()} className="button btn-primary">
-          Add to Cart
+          {inCart ? "Move to Cart" : "Add to Cart"}
         </button>
       </footer>
     </div>
