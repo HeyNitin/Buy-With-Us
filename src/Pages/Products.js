@@ -25,24 +25,24 @@ const productReducer = (state, action) => {
         rating: action.payload,
         ratingChecked: [...state.ratingChecked].map((item, index) =>
           index === action.payload - 1 ? true : false
-        )
+        ),
       };
     case "highLow":
       return {
         ...state,
         allProducts: state.allProducts.sort((a, b) => b.price - a.price),
-        priceChecked: [false, true]
+        priceChecked: [false, true],
       };
     case "lowHigh":
       return {
         ...state,
         allProducts: state.allProducts.sort((a, b) => a.price - b.price),
-        priceChecked: [true, false]
+        priceChecked: [true, false],
       };
     case "setProducts":
       return {
         ...state,
-        allProducts: action.payload
+        allProducts: action.payload,
       };
 
     case "Clear":
@@ -58,7 +58,7 @@ const productReducer = (state, action) => {
         ratingChecked: [false, false, false, false],
         priceChecked: [false, false],
         rating: 1,
-        allProducts: state.allProducts.sort(() => Math.random() - 0.5)
+        allProducts: state.allProducts.sort(() => Math.random() - 0.5),
       };
 
     default:
@@ -77,7 +77,7 @@ const initialValue = {
   rating: 1,
   allProducts: [],
   ratingChecked: [false, false, false, false],
-  priceChecked: [false, false]
+  priceChecked: [false, false],
 };
 
 const Product = () => {
@@ -91,7 +91,7 @@ const Product = () => {
       "Ethnic Wears": state.isEthnicWears,
       "Traditional Clothing": state.isTraditionalClothing,
       "Newly Launched": state.isNewlyLaunched,
-      "Summer Collection": state.isSummerCollection
+      "Summer Collection": state.isSummerCollection,
     };
 
     let checkboxApplied = false;
@@ -102,16 +102,17 @@ const Product = () => {
         break;
       }
     }
-
     if (checkboxApplied) {
       for (let category of product.categoryName) {
-        if (categories[category]) {
+        if (categories[category] && product.rating >= state.rating) {
           return true;
         }
       }
       return false;
-    } else {
+    } else if (product.rating >= state.rating) {
       return true;
+    } else {
+      return false;
     }
   };
 
