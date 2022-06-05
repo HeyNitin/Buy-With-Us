@@ -19,7 +19,7 @@ const ProductCard = ({ product }) => {
           "/api/user/cart",
           { product },
           {
-            headers: { authorization: token }
+            headers: { authorization: token },
           }
         );
         setCartLength(res.data.cart.length);
@@ -38,7 +38,7 @@ const ProductCard = ({ product }) => {
         "/api/user/wishlist",
         { product },
         {
-          headers: { authorization: token }
+          headers: { authorization: token },
         }
       );
       setWishlistLength(res.data.wishlist.length);
@@ -66,7 +66,7 @@ const ProductCard = ({ product }) => {
       </div>
       <footer className="footer">
         <button onClick={() => addToCart()} className="button btn-primary">
-          {inCart ? "Move to Cart" : "Add to Cart"}
+          {inCart ? "Go to Cart" : "Add to Cart"}
         </button>
       </footer>
     </div>
