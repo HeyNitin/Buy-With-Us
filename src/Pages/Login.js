@@ -9,13 +9,13 @@ const loginReducer = (state, action) => {
       return { ...state, email: action.payload };
     case "Password":
       return { ...state, password: action.payload };
-    case "Remember-me":
+    case "rememberMe":
       return { ...state, rememberMe: action.payload };
     case "Error":
       return {
         ...state,
         error: true,
-        errorMsg: action.payload || "Wrong Credentials"
+        errorMsg: action.payload || "Wrong Credentials",
       };
     case "defaultCredentials":
       return state.defaultCredentials
@@ -23,13 +23,13 @@ const loginReducer = (state, action) => {
             ...state,
             email: "",
             password: "",
-            defaultCredentials: action.payload
+            defaultCredentials: action.payload,
           }
         : {
             ...state,
             email: "adarshbalika@gmail.com",
             password: "adarshbalika",
-            defaultCredentials: action.payload
+            defaultCredentials: action.payload,
           };
     default:
       break;
@@ -41,7 +41,7 @@ const initialValue = {
   password: "",
   rememberMe: false,
   error: false,
-  errorMsg: ""
+  errorMsg: "",
 };
 
 const Login = () => {
@@ -56,10 +56,10 @@ const Login = () => {
     if (state.email !== "" && state.password !== "") {
       try {
         const {
-          data: { encodedToken }
+          data: { encodedToken },
         } = await axios.post("/api/auth/login", {
           email: state.email,
-          password: state.password
+          password: state.password,
         });
         setToken(encodedToken);
         state.rememberMe &&
@@ -71,7 +71,7 @@ const Login = () => {
     } else {
       dispatch({
         type: "Error",
-        payload: "Please Enter both Email and Password"
+        payload: "Please Enter both Email and Password",
       });
     }
   };
@@ -100,7 +100,7 @@ const Login = () => {
       <div>
         <input
           onClick={(e) =>
-            dispatch({ type: "Remember-me", payload: e.target.checked })
+            dispatch({ type: "rememberMe", payload: e.target.checked })
           }
           value={state.rememberMe}
           id="remember-me"

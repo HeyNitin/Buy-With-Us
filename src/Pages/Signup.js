@@ -13,13 +13,15 @@ const signupRedcuer = (state, action) => {
       return { ...state, Password: action.payload };
     case "ConfirmPassword":
       return { ...state, ConfirmPassword: action.payload };
+    case "rememberMe":
+      return { ...state, rememberMe: action.payload };
     case "tnc":
       return { ...state, tnc: action.payload };
     case "Error":
       return {
         ...state,
         Error: true,
-        ErrorMsg: action.payload || "Something went wrong"
+        ErrorMsg: action.payload || "Something went wrong",
       };
     case "Success":
       return { ...state, Error: false };
@@ -36,7 +38,8 @@ const initialValue = {
   ConfirmPassword: "",
   Error: false,
   ErrorMsg: "",
-  tnc: false
+  rememberMe: false,
+  tnc: false,
 };
 const Signup = () => {
   const [state, dispatch] = useReducer(signupRedcuer, initialValue);
@@ -57,14 +60,15 @@ const Signup = () => {
     ) {
       try {
         const {
-          data: { encodedToken }
+          data: { encodedToken },
         } = await axios.post("/api/auth/signup", {
           email: state.Email,
           password: state.Password,
-          name: state.Name
+          name: state.Name,
         });
         setToken(encodedToken);
-        localStorage.setItem("token", JSON.stringify(encodedToken));
+        state.rememberMe &&
+          localStorage.setItem("token", JSON.stringify(encodedToken));
         Naviagte("/", { replace: true });
         dispatch({ type: "Success" });
       } catch (error) {
@@ -106,16 +110,27 @@ const Signup = () => {
         type="password"
         placeholder="********"
       />
-      <label htmlFor="con-password">Confirm Password</label>
+      <label htmlFor="confirm-password">Confirm Password</label>
       <input
         onChange={(e) =>
           dispatch({ type: "ConfirmPassword", payload: e.target.value })
         }
         value={state.ConfirmPassword}
-        id="con-password"
+        id="confirm-password"
         type="password"
         placeholder="********"
       />
+      <div>
+        <input
+          onClick={(e) =>
+            dispatch({ type: "rememberMe", payload: e.target.checked })
+          }
+          value={state.rememberMe}
+          id="remember-me"
+          type="checkbox"
+        />
+        <label htmlFor="remember-me">Remember me</label>
+      </div>
       <div>
         <input
           onClick={(e) => dispatch({ type: "tnc", payload: e.target.checked })}
