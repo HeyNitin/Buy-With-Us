@@ -2,30 +2,46 @@ import axios from "axios";
 import { useEffect, useReducer, useState } from "react";
 import { useAuth } from "../Contexts/AuthContext";
 import CartCard from "../Components/CartCard";
+import { Link, NavLink } from "react-router-dom";
 
-const cartReducer = (state, dispatch) => {
-  const newTotal = dispatch.payload.reduce(
-    (total, product) => total + product.qty * product.price,
-    0
-  );
-  const newDiscount = dispatch.payload.reduce(
-    (total, product) => total + product.qty * product.discount,
-    0
-  );
-  const newDeliveryCharges = newTotal - newDiscount > 1500 ? 0 : 199;
-  return {
-    totalPrice: newTotal,
-    totalDiscount: newDiscount,
-    deliveryCharges: newDeliveryCharges,
-    finalAmount: newTotal - newDiscount + newDeliveryCharges
-  };
+const cartReducer = (state, action) => {
+  switch (action.type) {
+    case "EMPTY_CART":
+      console.log("empty cart ran");
+      return {
+        totalPrice: 0,
+        totalDiscount: 0,
+        deliveryCharges: 0,
+        finalAmount: 0,
+      };
+
+    case "CART_UPDATE":
+      console.log("cart update ran");
+      const newTotal = action.payload.reduce(
+        (total, product) => total + product.qty * product.price,
+        0
+      );
+      const newDiscount = action.payload.reduce(
+        (total, product) => total + product.qty * product.discount,
+        0
+      );
+      const newDeliveryCharges = newTotal - newDiscount > 1500 ? 0 : 199;
+      return {
+        totalPrice: newTotal,
+        totalDiscount: newDiscount,
+        deliveryCharges: newDeliveryCharges,
+        finalAmount: newTotal - newDiscount + newDeliveryCharges,
+      };
+    default:
+      break;
+  }
 };
 
 const initialValue = {
   totalPrice: 0,
   totalDiscount: 0,
   deliveryCharges: 0,
-  finalAmount: 0
+  finalAmount: 0,
 };
 
 const Cart = () => {
@@ -35,20 +51,37 @@ const Cart = () => {
 
   useEffect(() => {
     (async () => {
+      console.log("cart useeffect ran");
       try {
         const res = await axios.get("/api/user/cart", {
-          headers: { authorization: token }
+          headers: { authorization: token },
         });
         setCart([...res.data.cart]);
-        [...res.data.cart].length > 0 &&
-          dispatch({ payload: [...res.data.cart] });
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     })();
-  }, [token, cart]);
+  }, []);
+
+  useEffect(
+    () =>
+      cart.length > 0
+        ? dispatch({ type: "CART_UPDATE", payload: cart })
+        : dispatch({ type: "EMPTY_CART", payload: [] }),
+    [cart]
+  );
 
   return (
     <div className="cart-container">
       <div className="heading-sub text-centered">MY CART</div>
+      {cart.length === 0 && (
+        <div className="empty-cart">
+          Nothing's in yet. Go to{" "}
+          <span>
+            <NavLink to={"/products"}>Products</NavLink>
+          </span>
+        </div>
+      )}
       <div className="cart-products">
         {cart.map((product) => (
           <CartCard key={product._id} setCart={setCart} product={product} />
@@ -71,7 +104,6 @@ const Cart = () => {
           <p className="heading-sub">Total Amount</p>{" "}
           <p className="heading-sub">{state.finalAmount}</p>
         </div>
-
         <p>You will save {state.totalDiscount} on this order</p>
         <button className="button" onClick={() => {}}>
           Place My Order
