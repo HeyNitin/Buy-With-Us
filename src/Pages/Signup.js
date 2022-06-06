@@ -80,75 +80,79 @@ const Signup = () => {
   };
 
   return (
-    <div className="container">
-      <p className="heading-sub text-centered">Signup</p>
+    <div className="signin-container">
+      <div className="container">
+        <p className="heading-sub text-centered">Signup</p>
 
-      <label htmlFor="name">Enter your Name</label>
+        <label htmlFor="name">Enter your Name</label>
 
-      <input
-        onChange={(e) => dispatch({ type: "Name", payload: e.target.value })}
-        value={state.Name}
-        type="text"
-        id="name"
-        placeholder="Enter your Name"
-      />
-      <label htmlFor="email-address">Email address</label>
-      <input
-        onChange={(e) => dispatch({ type: "Email", payload: e.target.value })}
-        value={state.Email}
-        type="text"
-        id="email-address"
-        placeholder="john@cena.com"
-      />
-      <label htmlFor="password">Password</label>
-      <input
-        onChange={(e) =>
-          dispatch({ type: "Password", payload: e.target.value })
-        }
-        value={state.Password}
-        id="password"
-        type="password"
-        placeholder="********"
-      />
-      <label htmlFor="confirm-password">Confirm Password</label>
-      <input
-        onChange={(e) =>
-          dispatch({ type: "ConfirmPassword", payload: e.target.value })
-        }
-        value={state.ConfirmPassword}
-        id="confirm-password"
-        type="password"
-        placeholder="********"
-      />
-      <div>
         <input
-          onClick={(e) =>
-            dispatch({ type: "rememberMe", payload: e.target.checked })
+          onChange={(e) => dispatch({ type: "Name", payload: e.target.value })}
+          value={state.Name}
+          type="text"
+          id="name"
+          placeholder="Enter your Name"
+        />
+        <label htmlFor="email-address">Email address</label>
+        <input
+          onChange={(e) => dispatch({ type: "Email", payload: e.target.value })}
+          value={state.Email}
+          type="text"
+          id="email-address"
+          placeholder="john@cena.com"
+        />
+        <label htmlFor="password">Password</label>
+        <input
+          onChange={(e) =>
+            dispatch({ type: "Password", payload: e.target.value })
           }
-          value={state.rememberMe}
-          id="remember-me"
-          type="checkbox"
+          value={state.Password}
+          id="password"
+          type="password"
+          placeholder="********"
         />
-        <label htmlFor="remember-me">Remember me</label>
-      </div>
-      <div>
+        <label htmlFor="confirm-password">Confirm Password</label>
         <input
-          onClick={(e) => dispatch({ type: "tnc", payload: e.target.checked })}
-          value={state.tnc}
-          id="tnc"
-          type="checkbox"
+          onChange={(e) =>
+            dispatch({ type: "ConfirmPassword", payload: e.target.value })
+          }
+          value={state.ConfirmPassword}
+          id="confirm-password"
+          type="password"
+          placeholder="********"
         />
-        <label htmlFor="tnc">I accept all terms & conditions</label>
-      </div>
-      <div className="footer">
-        <button onClick={() => singupHandler()} className="button">
-          Sign-Up
-        </button>
+        <div>
+          <input
+            onClick={(e) =>
+              dispatch({ type: "rememberMe", payload: e.target.checked })
+            }
+            value={state.rememberMe}
+            id="remember-me"
+            type="checkbox"
+          />
+          <label htmlFor="remember-me">Remember me</label>
+        </div>
+        <div>
+          <input
+            onClick={(e) =>
+              dispatch({ type: "tnc", payload: e.target.checked })
+            }
+            value={state.tnc}
+            id="tnc"
+            type="checkbox"
+          />
+          <label htmlFor="tnc">I accept all terms & conditions</label>
+        </div>
+        <div className="footer">
+          <button onClick={() => singupHandler()} className="button">
+            Sign-Up
+          </button>
 
-        <button className="button">
-          <Link to="/login">Already have an account? Login</Link>
-        </button>
-        {state.Error && <div style={{ color: "red" }}>{state.ErrorMsg}</div>}
+          <button className="button">
+            <Link to="/login">Already have an account? Login</Link>
+          </button>
+          {state.Error && <div style={{ color: "red" }}>{state.ErrorMsg}</div>}
+        </div>
       </div>
     </div>
   );

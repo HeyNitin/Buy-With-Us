@@ -1,9 +1,14 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useProduct } from "../Contexts/ProductContext";
 
 const Home = () => {
   const [categoryData, setCategoryData] = useState([]);
+  const { dispatch } = useProduct();
+
+  let Navigate = useNavigate();
+
   useEffect(
     () =>
       (async () => {
@@ -12,6 +17,30 @@ const Home = () => {
       })(),
     []
   );
+
+  const clickHandler = (categoryName) => {
+    switch (categoryName) {
+      case "Men's Collection":
+        dispatch({ type: "Clear" });
+        dispatch({ type: "Men Clothing", payload: true });
+        break;
+      case "Women's Collection":
+        dispatch({ type: "Clear" });
+        dispatch({ type: "Women Clothing", payload: true });
+        break;
+      case "Kid's Collection":
+        dispatch({ type: "Clear" });
+        dispatch({ type: "Kids Clothing", payload: true });
+        break;
+
+      default:
+        dispatch({ type: "Clear" });
+        dispatch({ type: categoryName, payload: true });
+        break;
+    }
+
+    Navigate("/products");
+  };
 
   const smallBanners = categoryData.filter(({ size }) => size === "small");
 
@@ -25,10 +54,7 @@ const Home = () => {
           <div key={id} className=" card card-onimage">
             <img src={img} alt="main-img" />
             <div className="header">
-              <Link to="/products">
-                {" "}
-                <p>{categoryName}</p>{" "}
-              </Link>
+              <p onClick={() => clickHandler(categoryName)}>{categoryName}</p>{" "}
             </div>
           </div>
         ))}
@@ -39,10 +65,7 @@ const Home = () => {
           <div className=" card card-onimage">
             <img className="img-responsive" src={img} alt="main-img" />
             <div className="header">
-              <Link to="/products">
-                {" "}
-                <p>{categoryName}</p>{" "}
-              </Link>
+              <p onClick={() => clickHandler(categoryName)}>{categoryName}</p>{" "}
             </div>
           </div>
         </div>
@@ -59,10 +82,7 @@ const Home = () => {
                 </div>
 
                 <footer className="footer">
-                  <Link to="/products">
-                    {" "}
-                    <p>{heading}</p>{" "}
-                  </Link>
+                  <p onClick={() => clickHandler(heading)}>{heading}</p>{" "}
                   <p>{description}</p>
                 </footer>
               </div>

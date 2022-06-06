@@ -73,17 +73,14 @@
   height: 17rem;
 }
 
-.homepage-collection .card .content .footer a p {
-  font-weight: bold;
-  font-size: larger;
-}
-
 .homepage-collection .card .content .footer p:hover {
   background-color: unset;
   padding: unset;
   cursor: unset;
 }
 
-.card .header a {
+.homepage-collection .card .content .footer p:first-child {
   font-weight: bold;
+  font-size: larger;
+  cursor: pointer;
 }

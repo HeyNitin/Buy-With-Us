@@ -57,3 +57,10 @@
   justify-content: center;
   margin: 1rem 0 0.5rem 0;
 }
+
+.signin-container {
+  min-height: 68vh;
+}
+.error-container {
+  min-height: 68vh;
+}

@@ -13,7 +13,7 @@ const WishlistCard = ({ product, setWishlist }) => {
         "/api/user/cart",
         { product },
         {
-          headers: { authorization: token }
+          headers: { authorization: token },
         }
       );
       removeFromWishlist();
@@ -22,10 +22,10 @@ const WishlistCard = ({ product, setWishlist }) => {
 
   const removeFromWishlist = async () => {
     const res = await axios.delete(`/api/user/wishlist/${product._id}`, {
-      headers: { authorization: token }
+      headers: { authorization: token },
     });
     setWishlist([...res.data.wishlist]);
-    setWishlistLength([...res.data.wishlist].length);
+    setWishlistLength(res.data.wishlist.length);
   };
 
   return (

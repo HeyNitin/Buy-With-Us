@@ -60,7 +60,7 @@ const SideBar = ({ state, dispatch }) => {
             onChange={(e) =>
               dispatch({
                 type: "Traditional Clothing",
-                payload: e.target.checked
+                payload: e.target.checked,
               })
             }
             checked={state.isTraditionalClothing}
@@ -90,6 +90,17 @@ const SideBar = ({ state, dispatch }) => {
             id="summer-collection"
           />
           <label htmlFor="summer-collection">Summer Collection</label>
+        </div>
+        <div>
+          <input
+            onChange={(e) =>
+              dispatch({ type: "Winter Collection", payload: e.target.checked })
+            }
+            checked={state.isWinterCollection}
+            type="checkbox"
+            id="winter-collection"
+          />
+          <label htmlFor="winter-collection">Winter Collection</label>
         </div>
         <p>Ratings</p>
         <input

@@ -34,14 +34,21 @@ const ProductCard = ({ product }) => {
 
   const addToWishlist = async () => {
     if (token) {
-      const res = await axios.post(
-        "/api/user/wishlist",
-        { product },
-        {
+      if (!inWishList) {
+        const res = await axios.post(
+          "/api/user/wishlist",
+          { product },
+          {
+            headers: { authorization: token },
+          }
+        );
+        setWishlistLength(res.data.wishlist.length);
+      } else {
+        const res = await axios.delete(`/api/user/wishlist/${product._id}`, {
           headers: { authorization: token },
-        }
-      );
-      setWishlistLength(res.data.wishlist.length);
+        });
+        setWishlistLength(res.data.wishlist.length);
+      }
       setInWishList((val) => !val);
     } else {
       Navigate("/login");

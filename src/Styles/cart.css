@@ -132,3 +132,7 @@
   cursor: pointer;
   text-decoration: underline;
 }
+
+.cart-container {
+  min-height: 72vh;
+}
