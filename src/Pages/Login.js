@@ -27,8 +27,8 @@ const loginReducer = (state, action) => {
           }
         : {
             ...state,
-            email: "adarshbalika@gmail.com",
-            password: "adarshbalika",
+            email: "Testing.email@dummy.com",
+            password: "justfortest",
             defaultCredentials: action.payload,
           };
     default:
@@ -50,8 +50,6 @@ const Login = () => {
   const Naviagte = useNavigate();
   const location = useLocation();
 
-  (() => token && Naviagte("/"))();
-
   const loginHandler = async () => {
     if (state.email !== "" && state.password !== "") {
       try {
@@ -66,7 +64,7 @@ const Login = () => {
           localStorage.setItem("token", JSON.stringify(encodedToken));
         Naviagte(location?.state?.from?.pathname || "/", { replace: true });
       } catch (error) {
-        dispatch({ type: "Error" });
+        console.log(error);
       }
     } else {
       dispatch({

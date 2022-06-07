@@ -6,13 +6,14 @@ const CartCard = ({ product, setCart }) => {
   const { img, title, price, discount } = product;
   const { token } = useAuth();
   const { setCartLength } = useLength();
+
   const addToWishlist = async () => {
     if (token) {
       await axios.post(
         "/api/user/wishlist",
         { product },
         {
-          headers: { authorization: token }
+          headers: { authorization: token },
         }
       );
       removeFromCart();
@@ -21,28 +22,48 @@ const CartCard = ({ product, setCart }) => {
 
   const removeFromCart = async () => {
     const res = await axios.delete(`/api/user/cart/${product._id}`, {
-      headers: { authorization: token }
+      headers: { authorization: token },
     });
     setCart([...res.data.cart]);
     setCartLength([...res.data.cart].length);
   };
 
   const increaseQuantity = async () => {
-    const res = await axios.post(
-      "/api/user/cart",
-      { product },
-      {
-        headers: { authorization: token }
-      }
-    );
-    setCart([...res.data.cart]);
+    try {
+      const res = await axios.post(
+        `/api/user/cart/${product._id}`,
+        { action: { type: "increment" } },
+        {
+          headers: { authorization: token },
+        }
+      );
+      setCart([...res.data.cart]);
+    } catch (error) {
+      console.error(error);
+    }
   };
-  // const decreaseQuantity = async () => {
-  //   const res = await axios.delete(`/api/user/cart/${product._id}`, {
-  //     headers: { authorization: token }
-  //   });
-  //   setCart([...res.data.cart]);
-  // };
+  const decreaseQuantity = async () => {
+    if (product.qty === 1) {
+      const res = await axios.delete(`/api/user/cart/${product._id}`, {
+        headers: { authorization: token },
+      });
+      setCart([...res.data.cart]);
+      setCartLength([...res.data.cart].length);
+    }
+
+    try {
+      const res = await axios.post(
+        `/api/user/cart/${product._id}`,
+        { action: { type: "decrement" } },
+        {
+          headers: { authorization: token },
+        }
+      );
+      setCart([...res.data.cart]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="card card-horizental">
@@ -56,7 +77,12 @@ const CartCard = ({ product, setCart }) => {
           <p className="text-grey"> {~~((discount * 100) / price)}% off</p>
           <div className="quantity">
             <p>Quantity</p>
-            <button className="button quantity-d" onClick={() => {}}>
+            <button
+              className="button quantity-d"
+              onClick={() => {
+                decreaseQuantity();
+              }}
+            >
               -
             </button>
             <input placeholder={product.qty} />

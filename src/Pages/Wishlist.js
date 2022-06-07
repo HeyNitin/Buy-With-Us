@@ -8,14 +8,17 @@ const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await axios.get("/api/user/wishlist", {
-          headers: { authorization: token }
-        });
-        setWishlist((wl) => [...res.data.wishlist]);
-      } catch (error) {}
-    })();
+    token &&
+      (async () => {
+        try {
+          const res = await axios.get("/api/user/wishlist", {
+            headers: { authorization: token },
+          });
+          setWishlist(res.data.wishlist);
+        } catch (error) {
+          console.log(error);
+        }
+      })();
   }, [token]);
 
   return (

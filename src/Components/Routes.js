@@ -8,6 +8,7 @@ import Login from "../Pages/Login";
 import Products from "../Pages/Products";
 import Error404 from "../Pages/Error404";
 import RequireAuth from "./RequireAuth";
+import RequireNoAuth from "./RequireNoAuth";
 
 const Routes = () => {
   return (
@@ -31,8 +32,23 @@ const Routes = () => {
           </RequireAuth>
         }
       />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+
+      <Route
+        path="/login"
+        element={
+          <RequireNoAuth>
+            <Login />
+          </RequireNoAuth>
+        }
+      />
+      <Route
+        path="/signup"
+        element={
+          <RequireNoAuth>
+            <Signup />
+          </RequireNoAuth>
+        }
+      />
       <Route path="/products" element={<Products />} />
       <Route path="*" element={<Error404 />} />
     </R>

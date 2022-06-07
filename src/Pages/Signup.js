@@ -46,8 +46,6 @@ const Signup = () => {
   const { token, setToken } = useAuth();
   const Naviagte = useNavigate();
 
-  (() => token && Naviagte("/"))();
-
   const singupHandler = async () => {
     if (state.Password !== state.ConfirmPassword) {
       dispatch({ type: "Error", payload: "Passwords don't match" });

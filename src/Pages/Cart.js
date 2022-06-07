@@ -7,7 +7,6 @@ import { Link, NavLink } from "react-router-dom";
 const cartReducer = (state, action) => {
   switch (action.type) {
     case "EMPTY_CART":
-      console.log("empty cart ran");
       return {
         totalPrice: 0,
         totalDiscount: 0,
@@ -16,7 +15,6 @@ const cartReducer = (state, action) => {
       };
 
     case "CART_UPDATE":
-      console.log("cart update ran");
       const newTotal = action.payload.reduce(
         (total, product) => total + product.qty * product.price,
         0
@@ -50,17 +48,17 @@ const Cart = () => {
   const [state, dispatch] = useReducer(cartReducer, initialValue);
 
   useEffect(() => {
-    (async () => {
-      console.log("cart useeffect ran");
-      try {
-        const res = await axios.get("/api/user/cart", {
-          headers: { authorization: token },
-        });
-        setCart([...res.data.cart]);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    token &&
+      (async () => {
+        try {
+          const res = await axios.get("/api/user/cart", {
+            headers: { authorization: token },
+          });
+          setCart([...res.data.cart]);
+        } catch (error) {
+          console.log(error);
+        }
+      })();
   }, []);
 
   useEffect(

@@ -1,13 +1,15 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useProduct } from "../Contexts/ProductContext";
+import { useToast } from "../Components/Toast";
 
 const Home = () => {
   const [categoryData, setCategoryData] = useState([]);
   const { dispatch } = useProduct();
 
   let Navigate = useNavigate();
+  const { showToast } = useToast();
 
   useEffect(
     () =>
@@ -38,7 +40,7 @@ const Home = () => {
         dispatch({ type: categoryName, payload: true });
         break;
     }
-
+    showToast("error", "success hai bhai");
     Navigate("/products");
   };
 
@@ -47,6 +49,7 @@ const Home = () => {
   const mediumBanners = categoryData.filter(({ size }) => size === "medium");
 
   const largeBanners = categoryData.filter(({ size }) => size === "large");
+
   return (
     <div>
       <div className="homepage-catagories">
@@ -70,7 +73,6 @@ const Home = () => {
           </div>
         </div>
       ))}
-
       <div className="homepage-collection">
         {mediumBanners.map(
           ({ id, img, categoryName, heading, description }) => (

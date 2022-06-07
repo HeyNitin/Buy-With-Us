@@ -18,7 +18,7 @@ export const getCartItemsHandler = function (schema, request) {
       404,
       {},
       {
-        errors: ["The email you entered is not Registered. Not Found error"]
+        errors: ["The email you entered is not Registered. Not Found error"],
       }
     );
   }
@@ -40,7 +40,7 @@ export const addItemToCartHandler = function (schema, request) {
         404,
         {},
         {
-          errors: ["The email you entered is not Registered. Not Found error"]
+          errors: ["The email you entered is not Registered. Not Found error"],
         }
       );
     }
@@ -60,7 +60,7 @@ export const addItemToCartHandler = function (schema, request) {
         ...product,
         createdAt: formatDate(),
         updatedAt: formatDate(),
-        qty: 1
+        qty: 1,
       });
     }
     this.db.users.update({ _id: userId }, { cart: userCart });
@@ -70,7 +70,7 @@ export const addItemToCartHandler = function (schema, request) {
       500,
       {},
       {
-        error
+        error,
       }
     );
   }
@@ -89,23 +89,12 @@ export const removeItemFromCartHandler = function (schema, request) {
         404,
         {},
         {
-          errors: ["The email you entered is not Registered. Not Found error"]
+          errors: ["The email you entered is not Registered. Not Found error"],
         }
       );
     }
     let userCart = schema.users.findBy({ _id: userId }).cart;
     const productId = request.params.productId;
-
-    // Logic for decreaseQuantity
-    // userCart = userCart.reduce((result, item) => {
-    //   if (item._id === productId && item.qty > 1) {
-    //     return [...result, { ...item, qty: item.qty - 1 }];
-    //   } else if (item._id === productId) {
-    //     return result;
-    //   } else {
-    //     return [...result, item];
-    //   }
-    // }, []);
 
     userCart = userCart.filter((item) => item._id !== productId);
     this.db.users.update({ _id: userId }, { cart: userCart });
@@ -115,7 +104,7 @@ export const removeItemFromCartHandler = function (schema, request) {
       500,
       {},
       {
-        error
+        error,
       }
     );
   }
@@ -136,7 +125,7 @@ export const updateCartItemHandler = function (schema, request) {
         404,
         {},
         {
-          errors: ["The email you entered is not Registered. Not Found error"]
+          errors: ["The email you entered is not Registered. Not Found error"],
         }
       );
     }
@@ -164,7 +153,7 @@ export const updateCartItemHandler = function (schema, request) {
       500,
       {},
       {
-        error
+        error,
       }
     );
   }
