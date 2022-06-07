@@ -46,7 +46,7 @@ const initialValue = {
 
 const Login = () => {
   const [state, dispatch] = useReducer(loginReducer, initialValue);
-  const { token, setToken } = useAuth();
+  const { setToken } = useAuth();
   const Naviagte = useNavigate();
   const location = useLocation();
 
@@ -62,7 +62,7 @@ const Login = () => {
         setToken(encodedToken);
         state.rememberMe &&
           localStorage.setItem("token", JSON.stringify(encodedToken));
-        Naviagte(location?.state?.from?.pathname || "/", { replace: true });
+        Naviagte("/", { replace: true });
       } catch (error) {
         console.log(error);
       }

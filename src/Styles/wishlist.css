@@ -5,6 +5,17 @@
   min-height: 72vh;
 }
 
+.wishlist-container .empty-cart {
+  color: var(--white);
+  font-size: larger;
+  position: absolute;
+  margin: 10rem 30rem 10rem 40rem;
+}
+.wishlist-container .empty-cart span {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .fa-heart {
   color: red;
 }

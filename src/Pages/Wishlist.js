@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuth } from "../Contexts/AuthContext";
 import WishlistCard from "../Components/WishlistCard";
+import { NavLink } from "react-router-dom";
 
 const Wishlist = () => {
   const { token } = useAuth();
@@ -23,6 +24,14 @@ const Wishlist = () => {
 
   return (
     <div className="products-container wishlist-container">
+      {wishlist.length === 0 && (
+        <div className="empty-cart">
+          Nothing's in yet. Go to{" "}
+          <span>
+            <NavLink to={"/products"}>Products</NavLink>
+          </span>
+        </div>
+      )}
       {wishlist.map((product) => (
         <WishlistCard
           key={product._id}
