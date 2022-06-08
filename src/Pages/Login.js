@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
 import { useToast } from "../Components/Toast";
 import { emailValidator } from "../Services/emailValidator";
+import { useDocumentTitle } from "../Hooks/useDocumentTitle";
 
 const loginReducer = (state, action) => {
   switch (action.type) {
@@ -50,6 +51,8 @@ const Login = () => {
   const [state, dispatch] = useReducer(loginReducer, initialValue);
   const { setToken } = useAuth();
   const { showToast } = useToast();
+
+  useDocumentTitle("Login");
 
   const loginHandler = async (e) => {
     e.preventDefault();

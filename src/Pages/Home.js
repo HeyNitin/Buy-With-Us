@@ -3,10 +3,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProduct } from "../Contexts/ProductContext";
 import { useToast } from "../Components/Toast";
+import { useDocumentTitle } from "../Hooks/useDocumentTitle";
 
 const Home = () => {
   const [categoryData, setCategoryData] = useState([]);
   const { dispatch } = useProduct();
+
+  useDocumentTitle("Home");
 
   let Navigate = useNavigate();
   const { showToast } = useToast();

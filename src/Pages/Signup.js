@@ -5,6 +5,7 @@ import { useAuth } from "../Contexts/AuthContext";
 import { useToast } from "../Components/Toast";
 import { emailValidator } from "../Services/emailValidator";
 import { passwordValidator } from "../Services/passwordValidator";
+import { useDocumentTitle } from "../Hooks/useDocumentTitle";
 
 const signupRedcuer = (state, action) => {
   switch (action.type) {
@@ -46,6 +47,8 @@ const Signup = () => {
   const [state, dispatch] = useReducer(signupRedcuer, initialValue);
   const { setToken } = useAuth();
   const { showToast } = useToast();
+
+  useDocumentTitle("SignUp");
 
   const signupHandler = async (e) => {
     e.preventDefault();

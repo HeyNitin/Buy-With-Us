@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../Contexts/AuthContext";
 import WishlistCard from "../Components/WishlistCard";
 import { NavLink } from "react-router-dom";
+import { useDocumentTitle } from "../Hooks/useDocumentTitle";
 
 const Wishlist = () => {
   const { token } = useAuth();
   const [wishlist, setWishlist] = useState([]);
+
+  useDocumentTitle("Wishlist");
 
   useEffect(() => {
     token &&

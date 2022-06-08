@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { useToast } from "../Components/Toast";
+import { useDocumentTitle } from "../Hooks/useDocumentTitle";
 
 const Error404 = () => {
   const { showToast } = useToast();
+  useDocumentTitle("Error");
 
   useEffect(() => showToast("error", "Page doesn't exist"), []);
 

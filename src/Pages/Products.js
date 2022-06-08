@@ -4,10 +4,13 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useProduct } from "../Contexts/ProductContext";
 import { useToast } from "../Components/Toast";
+import { useDocumentTitle } from "../Hooks/useDocumentTitle";
 
 const Product = () => {
   const { state, dispatch } = useProduct();
   const { showToast } = useToast();
+
+  useDocumentTitle("Products");
 
   const finalProductReducer = (product) => {
     const categories = {

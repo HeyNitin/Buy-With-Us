@@ -4,6 +4,7 @@ import { useAuth } from "../Contexts/AuthContext";
 import CartCard from "../Components/CartCard";
 import { NavLink } from "react-router-dom";
 import { useToast } from "../Components/Toast";
+import { useDocumentTitle } from "../Hooks/useDocumentTitle";
 
 const cartReducer = (state, action) => {
   switch (action.type) {
@@ -48,6 +49,8 @@ const Cart = () => {
   const [cart, setCart] = useState([]);
   const [state, dispatch] = useReducer(cartReducer, initialValue);
   const { showToast } = useToast();
+
+  useDocumentTitle("Cart");
 
   useEffect(() => {
     token &&
