@@ -5,11 +5,9 @@ const RequireNoAuth = ({ children }) => {
   const res = localStorage.getItem("token");
   const location = useLocation();
 
-  console.log("no auth ran");
-
   return res || token ? (
     <Navigate
-      to={location?.state?.from?.pathname}
+      to={location?.state?.from?.pathname || "/"}
       state={{ from: location }}
       replace
     />

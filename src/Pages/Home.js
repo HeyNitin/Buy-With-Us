@@ -14,8 +14,12 @@ const Home = () => {
   useEffect(
     () =>
       (async () => {
-        const res = await axios.get("/api/categories");
-        setCategoryData(res.data.categories);
+        try {
+          const res = await axios.get("/api/categories");
+          setCategoryData(res.data.categories);
+        } catch (error) {
+          showToast("error", "Looks like we're down");
+        }
       })(),
     []
   );
@@ -40,7 +44,6 @@ const Home = () => {
         dispatch({ type: categoryName, payload: true });
         break;
     }
-    showToast("error", "success hai bhai");
     Navigate("/products");
   };
 

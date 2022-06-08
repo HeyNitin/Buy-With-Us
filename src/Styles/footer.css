@@ -12,3 +12,7 @@
 .footer .fa {
   font-size: 1.7rem;
 }
+
+.footer .fa:hover {
+  background-color: var(--off-white);
+}

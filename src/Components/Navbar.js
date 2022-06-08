@@ -3,22 +3,20 @@ import { useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
 import { useLength } from "../Contexts/LengthContext";
+import { useToast } from "./Toast";
 
 const Navbar = () => {
   const { token, setToken } = useAuth();
   const Navigate = useNavigate();
-  const {
-    cartLength,
-    setCartLength,
-    wishlistLength,
-    setWishlistLength
-  } = useLength();
+  const { cartLength, setCartLength, wishlistLength, setWishlistLength } =
+    useLength();
+  const { showToast } = useToast();
 
   useEffect(() =>
     (async () => {
       try {
         const res = await axios.get("/api/user/wishlist", {
-          headers: { authorization: token }
+          headers: { authorization: token },
         });
         res && setWishlistLength([...res.data.wishlist].length);
       } catch (error) {}
@@ -29,7 +27,7 @@ const Navbar = () => {
     (async () => {
       try {
         const res = await axios.get("/api/user/cart", {
-          headers: { authorization: token }
+          headers: { authorization: token },
         });
         res && setCartLength([...res.data.cart].length);
       } catch (error) {}
@@ -40,6 +38,7 @@ const Navbar = () => {
     setToken(false);
     localStorage.removeItem("token");
     Navigate("/");
+    showToast("success", "You're successfully logged out");
   };
   return (
     <div>
@@ -50,7 +49,7 @@ const Navbar = () => {
       <NavLink to="/login">Login</NavLink>
       <nav className="nav-header">
         <NavLink to="/" className="logo">
-          BuyWithUs
+          <img src="https://i.postimg.cc/Qt1r4MRC/logo.png" alt="logo" />
         </NavLink>
 
         <div className="badge">

@@ -136,3 +136,7 @@
 .cart-container {
   min-height: 72vh;
 }
+
+.cart-container button:disabled {
+  cursor: not-allowed;
+}

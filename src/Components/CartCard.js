@@ -1,11 +1,13 @@
 import { useAuth } from "../Contexts/AuthContext";
 import { useLength } from "../Contexts/LengthContext";
 import axios from "axios";
+import { useToast } from "./Toast";
 
 const CartCard = ({ product, setCart }) => {
   const { img, title, price, discount } = product;
   const { token } = useAuth();
   const { setCartLength } = useLength();
+  const { showToast } = useToast();
 
   const addToWishlist = async () => {
     if (token) {
@@ -16,16 +18,28 @@ const CartCard = ({ product, setCart }) => {
           headers: { authorization: token },
         }
       );
-      removeFromCart();
+      removeFromCart(true);
     }
   };
 
-  const removeFromCart = async () => {
-    const res = await axios.delete(`/api/user/cart/${product._id}`, {
-      headers: { authorization: token },
-    });
-    setCart([...res.data.cart]);
-    setCartLength([...res.data.cart].length);
+  const removeFromCart = async (fromWishlist = false) => {
+    try {
+      const res = await axios.delete(`/api/user/cart/${product._id}`, {
+        headers: { authorization: token },
+      });
+      setCart([...res.data.cart]);
+      setCartLength([...res.data.cart].length);
+      showToast(
+        "success",
+        `${
+          fromWishlist
+            ? "Item has been moved to Wishlist"
+            : "Item has been removed from cart"
+        }`
+      );
+    } catch {
+      showToast("error", "Something went wrong");
+    }
   };
 
   const increaseQuantity = async () => {
@@ -39,7 +53,7 @@ const CartCard = ({ product, setCart }) => {
       );
       setCart([...res.data.cart]);
     } catch (error) {
-      console.error(error);
+      showToast("error", "Something went Wrong");
     }
   };
   const decreaseQuantity = async () => {
@@ -49,6 +63,7 @@ const CartCard = ({ product, setCart }) => {
       });
       setCart([...res.data.cart]);
       setCartLength([...res.data.cart].length);
+      showToast("success", "Item has been removed from cart");
     }
 
     try {
@@ -61,7 +76,7 @@ const CartCard = ({ product, setCart }) => {
       );
       setCart([...res.data.cart]);
     } catch (error) {
-      console.error(error);
+      showToast("error", "Something went Wrong");
     }
   };
 

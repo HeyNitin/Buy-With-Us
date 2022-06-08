@@ -2,7 +2,8 @@ import axios from "axios";
 import { useEffect, useReducer, useState } from "react";
 import { useAuth } from "../Contexts/AuthContext";
 import CartCard from "../Components/CartCard";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useToast } from "../Components/Toast";
 
 const cartReducer = (state, action) => {
   switch (action.type) {
@@ -46,6 +47,7 @@ const Cart = () => {
   const { token } = useAuth();
   const [cart, setCart] = useState([]);
   const [state, dispatch] = useReducer(cartReducer, initialValue);
+  const { showToast } = useToast();
 
   useEffect(() => {
     token &&
@@ -56,7 +58,7 @@ const Cart = () => {
           });
           setCart([...res.data.cart]);
         } catch (error) {
-          console.log(error);
+          showToast("error", "Something went wrong");
         }
       })();
   }, []);
@@ -103,7 +105,13 @@ const Cart = () => {
           <p className="heading-sub">{state.finalAmount}</p>
         </div>
         <p>You will save {state.totalDiscount} on this order</p>
-        <button className="button" onClick={() => {}}>
+        <button
+          className="button"
+          disabled={!state.finalAmount}
+          onClick={() => {
+            showToast("info", "This feature will be available soon");
+          }}
+        >
           Place My Order
         </button>
       </div>

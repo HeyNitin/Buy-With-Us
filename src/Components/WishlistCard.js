@@ -1,31 +1,49 @@
 import { useAuth } from "../Contexts/AuthContext";
 import { useLength } from "../Contexts/LengthContext";
 import axios from "axios";
+import { useToast } from "./Toast";
 
 const WishlistCard = ({ product, setWishlist }) => {
   const { img, title, price } = product;
   const { token } = useAuth();
   const { setWishlistLength } = useLength();
+  const { showToast } = useToast();
 
   const addToCart = async () => {
     if (token) {
-      await axios.post(
-        "/api/user/cart",
-        { product },
-        {
-          headers: { authorization: token },
-        }
-      );
-      removeFromWishlist();
+      try {
+        await axios.post(
+          "/api/user/cart",
+          { product },
+          {
+            headers: { authorization: token },
+          }
+        );
+        removeFromWishlist(SVGComponentTransferFunctionElement);
+      } catch (error) {
+        showToast("error", "Something went wrong");
+      }
     }
   };
 
-  const removeFromWishlist = async () => {
-    const res = await axios.delete(`/api/user/wishlist/${product._id}`, {
-      headers: { authorization: token },
-    });
-    setWishlist([...res.data.wishlist]);
-    setWishlistLength(res.data.wishlist.length);
+  const removeFromWishlist = async (toCart = false) => {
+    try {
+      const res = await axios.delete(`/api/user/wishlist/${product._id}`, {
+        headers: { authorization: token },
+      });
+      setWishlist([...res.data.wishlist]);
+      setWishlistLength(res.data.wishlist.length);
+      showToast(
+        "success",
+        `${
+          toCart
+            ? "Item has been added to Cart"
+            : "Item has been removed from Wishlist"
+        }`
+      );
+    } catch (error) {
+      showToast("error", "Something went wrong");
+    }
   };
 
   return (

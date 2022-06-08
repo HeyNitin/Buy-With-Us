@@ -3,9 +3,11 @@ import ProductCard from "../Components/ProductCard";
 import { useEffect } from "react";
 import axios from "axios";
 import { useProduct } from "../Contexts/ProductContext";
+import { useToast } from "../Components/Toast";
 
 const Product = () => {
   const { state, dispatch } = useProduct();
+  const { showToast } = useToast();
 
   const finalProductReducer = (product) => {
     const categories = {
@@ -45,8 +47,12 @@ const Product = () => {
 
   useEffect(() => {
     (async () => {
-      const { data: products } = await axios.get("/api/products");
-      dispatch({ type: "setProducts", payload: products.products });
+      try {
+        const { data: products } = await axios.get("/api/products");
+        dispatch({ type: "setProducts", payload: products.products });
+      } catch (error) {
+        showToast("error", "Something went wrong");
+      }
     })();
   }, []);
 

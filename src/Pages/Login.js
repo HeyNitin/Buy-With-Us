@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useReducer } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
+import { useToast } from "../Components/Toast";
+import { emailValidator } from "../Services/emailValidator";
 
 const loginReducer = (state, action) => {
   switch (action.type) {
@@ -15,7 +17,7 @@ const loginReducer = (state, action) => {
       return {
         ...state,
         error: true,
-        errorMsg: action.payload || "Wrong Credentials",
+        errorMsg: action.payload,
       };
     case "defaultCredentials":
       return state.defaultCredentials
@@ -27,7 +29,7 @@ const loginReducer = (state, action) => {
           }
         : {
             ...state,
-            email: "Testing.email@dummy.com",
+            email: "Nitin@BuyWithUs.com",
             password: "justfortest",
             defaultCredentials: action.payload,
           };
@@ -47,29 +49,36 @@ const initialValue = {
 const Login = () => {
   const [state, dispatch] = useReducer(loginReducer, initialValue);
   const { setToken } = useAuth();
-  const Naviagte = useNavigate();
-  const location = useLocation();
+  const { showToast } = useToast();
 
-  const loginHandler = async () => {
+  const loginHandler = async (e) => {
+    e.preventDefault();
     if (state.email !== "" && state.password !== "") {
-      try {
-        const {
-          data: { encodedToken },
-        } = await axios.post("/api/auth/login", {
-          email: state.email,
-          password: state.password,
+      if (emailValidator(state.email)) {
+        try {
+          const {
+            data: { encodedToken },
+          } = await axios.post("/api/auth/login", {
+            email: state.email,
+            password: state.password,
+          });
+          setToken(encodedToken);
+          state.rememberMe &&
+            localStorage.setItem("token", JSON.stringify(encodedToken));
+          showToast("success", "You're successfully logged in");
+        } catch (error) {
+          dispatch({ type: "Error", payload: "Wrong Credentials" });
+        }
+      } else {
+        dispatch({
+          type: "Error",
+          payload: "Please enter correct Email Address",
         });
-        setToken(encodedToken);
-        state.rememberMe &&
-          localStorage.setItem("token", JSON.stringify(encodedToken));
-        Naviagte("/", { replace: true });
-      } catch (error) {
-        console.log(error);
       }
     } else {
       dispatch({
         type: "Error",
-        payload: "Please Enter both Email and Password",
+        payload: "Please enter both Email and Password",
       });
     }
   };
@@ -78,62 +87,66 @@ const Login = () => {
     <div className="signin-container">
       <div className="container">
         <p className="heading-sub text-centered">Login</p>
-        <label htmlFor="email-address">Email address</label>
-        <input
-          onChange={(e) =>
-            dispatch({ type: "E-mail", payload: e.target.value })
-          }
-          value={state.email}
-          type="text"
-          id="email-address"
-          placeholder="john@cena.com"
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          onChange={(e) =>
-            dispatch({ type: "Password", payload: e.target.value })
-          }
-          value={state.password}
-          id="password"
-          type="password"
-          placeholder="********"
-        />
-        <div>
+        <form onSubmit={(e) => loginHandler(e)}>
+          <label htmlFor="email-address">Email address</label>
           <input
-            onClick={(e) =>
-              dispatch({ type: "rememberMe", payload: e.target.checked })
+            onChange={(e) =>
+              dispatch({ type: "E-mail", payload: e.target.value })
             }
-            value={state.rememberMe}
-            id="remember-me"
-            type="checkbox"
+            value={state.email}
+            type="email"
+            id="email-address"
+            placeholder="Nitin@BuyWithUs.com"
           />
-          <label htmlFor="remember-me">Remember me</label>
-        </div>
-        <div>
+          <label htmlFor="password">Password</label>
           <input
-            onClick={(e) =>
-              dispatch({
-                type: "defaultCredentials",
-                payload: e.target.checked,
-              })
+            onChange={(e) =>
+              dispatch({ type: "Password", payload: e.target.value })
             }
-            value={state.defaultCredentials}
-            id="defaultCredentials"
-            type="checkbox"
+            value={state.password}
+            id="password"
+            type="password"
+            placeholder="********"
           />
-          <label htmlFor="defaultCredentials">Default Credentials</label>
-        </div>
-        <div className="footer">
-          <button className="button" onClick={() => loginHandler()}>
-            Login
-          </button>
-          <button className="button">
-            <Link to="/signup" replace={true}>
-              New User? Create New Account
-            </Link>
-          </button>
-        </div>
-        {state.error && <div style={{ color: "red" }}>{state.errorMsg}</div>}
+          <div>
+            <input
+              onClick={(e) =>
+                dispatch({ type: "rememberMe", payload: e.target.checked })
+              }
+              value={state.rememberMe}
+              id="remember-me"
+              type="checkbox"
+            />
+            <label htmlFor="remember-me">Remember me</label>
+          </div>
+          <div>
+            <input
+              onClick={(e) =>
+                dispatch({
+                  type: "defaultCredentials",
+                  payload: e.target.checked,
+                })
+              }
+              value={state.defaultCredentials}
+              id="defaultCredentials"
+              type="checkbox"
+            />
+            <label htmlFor="defaultCredentials">Default Credentials</label>
+          </div>
+          <div className="footer">
+            <button className="button">Login</button>
+            <button className="button">
+              <Link to="/signup" replace={true}>
+                New User? Create New Account
+              </Link>
+            </button>
+          </div>
+          {state.error && (
+            <div style={{ color: "red" }} className="Error-container">
+              {state.errorMsg}
+            </div>
+          )}
+        </form>
       </div>
     </div>
   );

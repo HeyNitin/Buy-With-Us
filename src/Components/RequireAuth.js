@@ -5,8 +5,6 @@ const RequireAuth = ({ children }) => {
   const res = localStorage.getItem("token");
   const location = useLocation();
 
-  console.log("auth ran");
-
   return res || token ? (
     children
   ) : (
