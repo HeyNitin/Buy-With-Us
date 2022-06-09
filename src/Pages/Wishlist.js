@@ -1,13 +1,14 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuth } from "../Contexts/AuthContext";
 import WishlistCard from "../Components/WishlistCard";
 import { NavLink } from "react-router-dom";
 import { useDocumentTitle } from "../Hooks/useDocumentTitle";
+import { useWishlist } from "../Contexts/WishlistContext";
 
 const Wishlist = () => {
   const { token } = useAuth();
-  const [wishlist, setWishlist] = useState([]);
+  const { wishlist, setWishlist } = useWishlist();
 
   useDocumentTitle("Wishlist");
 

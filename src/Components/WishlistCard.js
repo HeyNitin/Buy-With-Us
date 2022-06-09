@@ -1,12 +1,12 @@
 import { useAuth } from "../Contexts/AuthContext";
-import { useLength } from "../Contexts/LengthContext";
+import { useWishlist } from "../Contexts/WishlistContext";
 import axios from "axios";
 import { useToast } from "./Toast";
 
 const WishlistCard = ({ product, setWishlist }) => {
   const { img, title, price } = product;
   const { token } = useAuth();
-  const { setWishlistLength } = useLength();
+  const { setWishlistLength } = useWishlist();
   const { showToast } = useToast();
 
   const addToCart = async () => {

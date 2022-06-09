@@ -2,14 +2,15 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
-import { useLength } from "../Contexts/LengthContext";
+import { useCart } from "../Contexts/CartContext";
+import { useWishlist } from "../Contexts/WishlistContext";
 import { useToast } from "./Toast";
 
 const Navbar = () => {
   const { token, setToken } = useAuth();
   const Navigate = useNavigate();
-  const { cartLength, setCartLength, wishlistLength, setWishlistLength } =
-    useLength();
+  const { cartLength, setCartLength } = useCart();
+  const { wishlistLength, setWishlistLength } = useWishlist();
   const { showToast } = useToast();
 
   useEffect(() =>

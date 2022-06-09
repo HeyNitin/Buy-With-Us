@@ -1,53 +1,16 @@
 import axios from "axios";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../Contexts/AuthContext";
+import { useCart } from "../Contexts/CartContext";
 import CartCard from "../Components/CartCard";
 import { NavLink } from "react-router-dom";
 import { useToast } from "../Components/Toast";
 import { useDocumentTitle } from "../Hooks/useDocumentTitle";
 
-const cartReducer = (state, action) => {
-  switch (action.type) {
-    case "EMPTY_CART":
-      return {
-        totalPrice: 0,
-        totalDiscount: 0,
-        deliveryCharges: 0,
-        finalAmount: 0,
-      };
-
-    case "CART_UPDATE":
-      const newTotal = action.payload.reduce(
-        (total, product) => total + product.qty * product.price,
-        0
-      );
-      const newDiscount = action.payload.reduce(
-        (total, product) => total + product.qty * product.discount,
-        0
-      );
-      const newDeliveryCharges = newTotal - newDiscount > 1500 ? 0 : 199;
-      return {
-        totalPrice: newTotal,
-        totalDiscount: newDiscount,
-        deliveryCharges: newDeliveryCharges,
-        finalAmount: newTotal - newDiscount + newDeliveryCharges,
-      };
-    default:
-      break;
-  }
-};
-
-const initialValue = {
-  totalPrice: 0,
-  totalDiscount: 0,
-  deliveryCharges: 0,
-  finalAmount: 0,
-};
-
 const Cart = () => {
   const { token } = useAuth();
   const [cart, setCart] = useState([]);
-  const [state, dispatch] = useReducer(cartReducer, initialValue);
+  const { cartState, cartDispatch } = useCart();
   const { showToast } = useToast();
 
   useDocumentTitle("Cart");
@@ -69,8 +32,8 @@ const Cart = () => {
   useEffect(
     () =>
       cart.length > 0
-        ? dispatch({ type: "CART_UPDATE", payload: cart })
-        : dispatch({ type: "EMPTY_CART", payload: [] }),
+        ? cartDispatch({ type: "CART_UPDATE", payload: cart })
+        : cartDispatch({ type: "EMPTY_CART", payload: [] }),
     [cart]
   );
 
@@ -95,22 +58,22 @@ const Cart = () => {
           <p className="heading-sub">Price Details</p>
         </div>
         <div>
-          <p>Price</p> <p>{state.totalPrice}</p>
+          <p>Price</p> <p>{cartState.totalPrice}</p>
         </div>
         <div>
-          <p>Discount</p> <p>{state.totalDiscount}</p>
+          <p>Discount</p> <p>{cartState.totalDiscount}</p>
         </div>
         <div>
-          <p>Delivery Charges</p> <p>{state.deliveryCharges}</p>
+          <p>Delivery Charges</p> <p>{cartState.deliveryCharges}</p>
         </div>
         <div>
           <p className="heading-sub">Total Amount</p>{" "}
-          <p className="heading-sub">{state.finalAmount}</p>
+          <p className="heading-sub">{cartState.finalAmount}</p>
         </div>
-        <p>You will save {state.totalDiscount} on this order</p>
+        <p>You will save {cartState.totalDiscount} on this order</p>
         <button
           className="button"
-          disabled={!state.finalAmount}
+          disabled={!cartState.finalAmount}
           onClick={() => {
             showToast("info", "This feature will be available soon");
           }}

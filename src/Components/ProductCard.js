@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useAuth } from "../Contexts/AuthContext";
-import { useLength } from "../Contexts/LengthContext";
+import { useCart } from "../Contexts/CartContext";
+import { useWishlist } from "../Contexts/WishlistContext";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useToast } from "./Toast";
@@ -9,7 +10,8 @@ const ProductCard = ({ product }) => {
   const { title, price, img, rating } = product;
   const { token } = useAuth();
   const Navigate = useNavigate();
-  const { setWishlistLength, setCartLength } = useLength();
+  const { setCartLength } = useCart();
+  const { setWishlistLength } = useWishlist();
   const [inCart, setInCart] = useState(false);
   const [inWishList, setInWishList] = useState(false);
   const { showToast } = useToast();

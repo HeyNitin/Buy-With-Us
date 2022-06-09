@@ -3,9 +3,10 @@ import { useReducer } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
 import { useToast } from "../Components/Toast";
-import { emailValidator } from "../Services/emailValidator";
-import { passwordValidator } from "../Services/passwordValidator";
-import { useDocumentTitle } from "../Hooks/useDocumentTitle";
+import { nameValidator } from "../Services/nameValidator.js";
+import { emailValidator } from "../Services/emailValidator.js";
+import { passwordValidator } from "../Services/passwordValidator.js";
+import { useDocumentTitle } from "../Hooks/useDocumentTitle.js";
 
 const signupRedcuer = (state, action) => {
   switch (action.type) {
@@ -57,11 +58,17 @@ const Signup = () => {
         type: "Error",
         payload: "Please enter all the fields",
       });
-    } else if (state.Name.length < 3 || state.Name.length > 16) {
+    } else if (state.Name.length < 3 || state.Name.length > 26) {
       dispatch({
         type: "Error",
         payload:
-          "Name must contain atleast three letters and a maximum of 15 letters",
+          "Name must contain atleast three letters and a maximum of 25 letters",
+      });
+    } else if (!nameValidator(state.Name)) {
+      dispatch({
+        type: "Error",
+        payload:
+          "Name must contain both firstname and surname. Middle name is optional and these must be seperated by one and only one space",
       });
     } else if (!emailValidator(state.Email)) {
       dispatch({
