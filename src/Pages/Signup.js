@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useReducer } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
 import { useToast } from "../Components/Toast";
 import { nameValidator } from "../Services/nameValidator.js";
@@ -48,6 +48,8 @@ const Signup = () => {
   const [state, dispatch] = useReducer(signupRedcuer, initialValue);
   const { setToken } = useAuth();
   const { showToast } = useToast();
+  const Navigate = useNavigate();
+  const location = useLocation();
 
   useDocumentTitle("SignUp");
 
@@ -93,19 +95,24 @@ const Signup = () => {
       dispatch({ type: "Error", payload: "Please tick the checkbox" });
     } else {
       try {
-        const {
-          data: { encodedToken },
-        } = await axios.post("/api/auth/signup", {
-          email: state.Email,
+        const res = await axios.post("/api/auth/signup", {
+          email: state.Email.toLowerCase(),
           password: state.Password,
           name: state.Name,
         });
-        setToken(encodedToken);
-        state.rememberMe &&
-          localStorage.setItem("token", JSON.stringify(encodedToken));
-        showToast("success", "You're successfully logged in");
+        res.status === 201 &&
+          (setToken(res.data.encodedToken),
+          state.rememberMe &&
+            localStorage.setItem("token", JSON.stringify(encodedToken)),
+          showToast("success", "You're successfully logged in"));
+        res.status === 200 &&
+          (showToast("info", "Email already exists"),
+          dispatch({
+            type: "Error",
+            payload: "Email already exists in database",
+          }));
       } catch (error) {
-        showToast("error", "Something went wrong");
+        showToast("error", "Something went wrong while tring to sign you in");
       }
     }
   };
@@ -180,10 +187,17 @@ const Signup = () => {
           </div>
           <div className="footer">
             <button className="button">Sign-Up</button>
-
-            <button className="button">
-              <Link to="/login">Already have an account? Login</Link>
-            </button>
+            <p
+              onClick={() =>
+                Navigate("/login", {
+                  state: {
+                    from: { pathname: location?.state?.from?.pathname },
+                  },
+                })
+              }
+            >
+              Already have an account? Login
+            </p>
             {state.Error && (
               <div style={{ color: "red" }}>{state.ErrorMsg}</div>
             )}

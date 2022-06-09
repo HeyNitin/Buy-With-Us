@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useReducer } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
 import { useToast } from "../Components/Toast";
 import { emailValidator } from "../Services/emailValidator";
@@ -51,6 +51,8 @@ const Login = () => {
   const [state, dispatch] = useReducer(loginReducer, initialValue);
   const { setToken } = useAuth();
   const { showToast } = useToast();
+  const Navigate = useNavigate();
+  const location = useLocation();
 
   useDocumentTitle("Login");
 
@@ -59,13 +61,11 @@ const Login = () => {
     if (state.email !== "" && state.password !== "") {
       if (emailValidator(state.email)) {
         try {
-          const {
-            data: { encodedToken },
-          } = await axios.post("/api/auth/login", {
-            email: state.email,
+          const { data } = await axios.post("/api/auth/login", {
+            email: state.email.toLowerCase(),
             password: state.password,
           });
-          setToken(encodedToken);
+          setToken(data.encodedToken);
           state.rememberMe &&
             localStorage.setItem("token", JSON.stringify(encodedToken));
           showToast("success", "You're successfully logged in");
@@ -138,11 +138,17 @@ const Login = () => {
           </div>
           <div className="footer">
             <button className="button">Login</button>
-            <button className="button">
-              <Link to="/signup" replace={true}>
-                New User? Create New Account
-              </Link>
-            </button>
+            <p
+              onClick={() =>
+                Navigate("/signup", {
+                  state: {
+                    from: { pathname: location?.state?.from?.pathname },
+                  },
+                })
+              }
+            >
+              New User? Create New Account
+            </p>
           </div>
           {state.error && (
             <div style={{ color: "red" }} className="Error-container">

@@ -42,7 +42,7 @@
   display: block;
 }
 
-.container .footer .button:nth-child(1) {
+.container .footer .button {
   width: 95%;
   background-color: var(--primary-color);
   color: var(--white);
@@ -51,11 +51,15 @@
   margin: 2rem 0 0 0;
 }
 
-.container .footer .button:nth-child(2) {
+.container .footer p {
   display: flex;
   width: 95%;
   justify-content: center;
   margin: 1rem 0 0.5rem 0;
+}
+.container .footer p:hover {
+  background-color: var(--white);
+  cursor: pointer;
 }
 
 .signin-container {

@@ -41,12 +41,17 @@ const initialValue = {
 const cartContext = createContext();
 
 const CartProvider = ({ children }) => {
-  const [cartLength, setCartLength] = useState(0);
+  const [cart, setCart] = useState([]);
   const [cartState, cartDispatch] = useReducer(cartReducer, initialValue);
 
   return (
     <cartContext.Provider
-      value={{ cartState, cartDispatch, cartLength, setCartLength }}
+      value={{
+        cartState,
+        cartDispatch,
+        cart,
+        setCart,
+      }}
     >
       {children}
     </cartContext.Provider>

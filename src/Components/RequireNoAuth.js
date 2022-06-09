@@ -9,7 +9,7 @@ const RequireNoAuth = ({ children }) => {
     <Navigate
       to={location?.state?.from?.pathname || "/"}
       state={{ from: location }}
-      replace
+      replace={true}
     />
   ) : (
     children

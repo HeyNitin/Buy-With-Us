@@ -2,19 +2,33 @@ import axios from "axios";
 import { useAuth } from "../Contexts/AuthContext";
 import { useCart } from "../Contexts/CartContext";
 import { useWishlist } from "../Contexts/WishlistContext";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useToast } from "./Toast";
 
 const ProductCard = ({ product }) => {
   const { title, price, img, rating } = product;
   const { token } = useAuth();
   const Navigate = useNavigate();
-  const { setCartLength } = useCart();
-  const { setWishlistLength } = useWishlist();
+  const { cart, setCart } = useCart();
+  const { wishlist, setWishlist } = useWishlist();
   const [inCart, setInCart] = useState(false);
   const [inWishList, setInWishList] = useState(false);
   const { showToast } = useToast();
+  const location = useLocation();
+
+  useEffect(() => {
+    for (let item of cart) {
+      if (item._id === product._id) {
+        setInCart(true);
+      }
+    }
+    for (let item of wishlist) {
+      if (item._id === product._id) {
+        setInWishList(true);
+      }
+    }
+  }, [token, cart, wishlist]);
 
   const addToCart = async () => {
     if (token) {
@@ -27,17 +41,20 @@ const ProductCard = ({ product }) => {
               headers: { authorization: token },
             }
           );
-          setCartLength(res.data.cart.length);
+          setCart(res.data.cart);
           showToast("success", "Item has been added to Cart");
         } catch (error) {
-          showToast("error", "Something went wrong");
+          showToast(
+            "error",
+            "Something went wrong while trying to add item to cart"
+          );
         }
       } else if (inCart) {
         Navigate("/cart");
       }
       setInCart((val) => !val);
     } else {
-      Navigate("/login");
+      Navigate("/login", { state: { from: location } });
     }
   };
 
@@ -53,23 +70,26 @@ const ProductCard = ({ product }) => {
             }
           );
 
-          res.status === 201 &&
-            (setWishlistLength(res.data.wishlist.length),
-            showToast("success", "Item has been added to Wishlist"));
-          res.status === 200 &&
-            showToast("info", "Item already present in Wishlist");
+          setWishlist(res.data.wishlist);
+          showToast("success", "Item has been added to Wishlist");
         } catch (error) {
-          showToast("error", "Something went wrong");
+          showToast(
+            "error",
+            "Something went wrong while tring to add item to wishlist"
+          );
         }
       } else {
         try {
           const res = await axios.delete(`/api/user/wishlist/${product._id}`, {
             headers: { authorization: token },
           });
-          setWishlistLength(res.data.wishlist.length);
+          setWishlist(res.data.wishlist);
           showToast("success", "Item has been removed from Wishlist");
         } catch (error) {
-          showToast("error", "Something went wrong");
+          showToast(
+            "error",
+            "Something went wrong while tring to remove the item from wishlist"
+          );
         }
       }
       setInWishList((val) => !val);

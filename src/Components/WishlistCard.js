@@ -1,27 +1,47 @@
 import { useAuth } from "../Contexts/AuthContext";
+import { useCart } from "../Contexts/CartContext";
 import { useWishlist } from "../Contexts/WishlistContext";
 import axios from "axios";
 import { useToast } from "./Toast";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const WishlistCard = ({ product, setWishlist }) => {
+const WishlistCard = ({ product }) => {
   const { img, title, price } = product;
   const { token } = useAuth();
-  const { setWishlistLength } = useWishlist();
+  const { cart, setCart } = useCart();
+  const { setWishlist } = useWishlist();
   const { showToast } = useToast();
+
+  const [isInCart, setIsInCart] = useState(false);
+  let Navigate = useNavigate();
+
+  useEffect(() => {
+    for (let item of cart) {
+      if (item._id === product._id) {
+        setIsInCart(true);
+      }
+    }
+  }, []);
 
   const addToCart = async () => {
     if (token) {
-      try {
-        await axios.post(
-          "/api/user/cart",
-          { product },
-          {
-            headers: { authorization: token },
-          }
-        );
-        removeFromWishlist(SVGComponentTransferFunctionElement);
-      } catch (error) {
-        showToast("error", "Something went wrong");
+      if (!isInCart) {
+        try {
+          const res = await axios.post(
+            "/api/user/cart",
+            { product },
+            {
+              headers: { authorization: token },
+            }
+          );
+          setCart(res.data.cart);
+          removeFromWishlist(true);
+        } catch (error) {
+          showToast("error", "Something went wrong trying to add item to cart");
+        }
+      } else {
+        Navigate("/cart");
       }
     }
   };
@@ -32,7 +52,6 @@ const WishlistCard = ({ product, setWishlist }) => {
         headers: { authorization: token },
       });
       setWishlist([...res.data.wishlist]);
-      setWishlistLength(res.data.wishlist.length);
       showToast(
         "success",
         `${
@@ -42,7 +61,10 @@ const WishlistCard = ({ product, setWishlist }) => {
         }`
       );
     } catch (error) {
-      showToast("error", "Something went wrong");
+      showToast(
+        "error",
+        "Something went wrong while tring to remove item from wishlist"
+      );
     }
   };
 
@@ -60,7 +82,7 @@ const WishlistCard = ({ product, setWishlist }) => {
       </div>
       <footer className="footer">
         <button onClick={() => addToCart()} className="button btn-primary">
-          Move to Cart
+          {isInCart ? "Go to Cart" : "Move to Cart"}
         </button>
       </footer>
     </div>

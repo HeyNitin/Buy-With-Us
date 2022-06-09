@@ -21,7 +21,10 @@ const Home = () => {
           const res = await axios.get("/api/categories");
           setCategoryData(res.data.categories);
         } catch (error) {
-          showToast("error", "Looks like we're down");
+          showToast(
+            "error",
+            "Somwthing went wrong while tring to load categories"
+          );
         }
       })(),
     []
@@ -62,8 +65,8 @@ const Home = () => {
         {smallBanners.map(({ id, img, categoryName }) => (
           <div key={id} className=" card card-onimage">
             <img src={img} alt="main-img" />
-            <div className="header">
-              <p onClick={() => clickHandler(categoryName)}>{categoryName}</p>{" "}
+            <div onClick={() => clickHandler(categoryName)} className="header">
+              <p>{categoryName}</p>{" "}
             </div>
           </div>
         ))}
@@ -73,8 +76,8 @@ const Home = () => {
         <div key={id} className="homepage-banner">
           <div className=" card card-onimage">
             <img className="img-responsive" src={img} alt="main-img" />
-            <div className="header">
-              <p onClick={() => clickHandler(categoryName)}>{categoryName}</p>{" "}
+            <div onClick={() => clickHandler(categoryName)} className="header">
+              <p>{categoryName}</p>{" "}
             </div>
           </div>
         </div>

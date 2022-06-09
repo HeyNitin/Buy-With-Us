@@ -54,14 +54,17 @@ const Product = () => {
         const { data: products } = await axios.get("/api/products");
         dispatch({ type: "setProducts", payload: products.products });
       } catch (error) {
-        showToast("error", "Something went wrong");
+        showToast(
+          "error",
+          "Something went wrong while trying to load products"
+        );
       }
     })();
   }, []);
 
   return (
     <div>
-      <SideBar state={state} dispatch={dispatch} />
+      <SideBar />
       <div className="main-container-products">
         <div className="products-container">
           {filteredProducts.map((product) => {

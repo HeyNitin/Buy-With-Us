@@ -1,4 +1,7 @@
-const SideBar = ({ state, dispatch }) => {
+import { useProduct } from "../Contexts/ProductContext";
+
+const SideBar = () => {
+  const { state, dispatch } = useProduct();
   return (
     <aside className="products-sidebar">
       <div className="filters">

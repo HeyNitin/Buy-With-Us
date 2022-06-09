@@ -9,8 +9,7 @@ import { useDocumentTitle } from "../Hooks/useDocumentTitle";
 
 const Cart = () => {
   const { token } = useAuth();
-  const [cart, setCart] = useState([]);
-  const { cartState, cartDispatch } = useCart();
+  const { cart, setCart, cartState, cartDispatch } = useCart();
   const { showToast } = useToast();
 
   useDocumentTitle("Cart");
@@ -24,7 +23,7 @@ const Cart = () => {
           });
           setCart([...res.data.cart]);
         } catch (error) {
-          showToast("error", "Something went wrong");
+          showToast("error", "Something went wrong while loading cart items");
         }
       })();
   }, []);
@@ -50,7 +49,7 @@ const Cart = () => {
       )}
       <div className="cart-products">
         {cart.map((product) => (
-          <CartCard key={product._id} setCart={setCart} product={product} />
+          <CartCard key={product._id} product={product} />
         ))}
       </div>
       <div className="card card-text-only checkout-box">

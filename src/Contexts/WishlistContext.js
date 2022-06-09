@@ -4,12 +4,9 @@ const wishlistContext = createContext();
 
 const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
-  const [wishlistLength, setWishlistLength] = useState([]);
 
   return (
-    <wishlistContext.Provider
-      value={{ wishlist, setWishlist, wishlistLength, setWishlistLength }}
-    >
+    <wishlistContext.Provider value={{ wishlist, setWishlist }}>
       {children}
     </wishlistContext.Provider>
   );

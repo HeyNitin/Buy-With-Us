@@ -5,10 +5,12 @@ import WishlistCard from "../Components/WishlistCard";
 import { NavLink } from "react-router-dom";
 import { useDocumentTitle } from "../Hooks/useDocumentTitle";
 import { useWishlist } from "../Contexts/WishlistContext";
+import { useToast } from "../Components/Toast";
 
 const Wishlist = () => {
   const { token } = useAuth();
   const { wishlist, setWishlist } = useWishlist();
+  const { showToast } = useToast();
 
   useDocumentTitle("Wishlist");
 
@@ -21,7 +23,10 @@ const Wishlist = () => {
           });
           setWishlist(res.data.wishlist);
         } catch (error) {
-          console.log(error);
+          showToast(
+            "error",
+            "Something went wrong while trying to load wishlist items"
+          );
         }
       })();
   }, [token]);
@@ -37,11 +42,7 @@ const Wishlist = () => {
         </div>
       )}
       {wishlist.map((product) => (
-        <WishlistCard
-          key={product._id}
-          setWishlist={setWishlist}
-          product={product}
-        />
+        <WishlistCard key={product._id} product={product} />
       ))}
     </div>
   );

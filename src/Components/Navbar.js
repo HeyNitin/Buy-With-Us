@@ -9,38 +9,54 @@ import { useToast } from "./Toast";
 const Navbar = () => {
   const { token, setToken } = useAuth();
   const Navigate = useNavigate();
-  const { cartLength, setCartLength } = useCart();
-  const { wishlistLength, setWishlistLength } = useWishlist();
+  const { cart, setCart } = useCart();
+  const { wishlist, setWishlist } = useWishlist();
   const { showToast } = useToast();
 
-  useEffect(() =>
-    (async () => {
-      try {
-        const res = await axios.get("/api/user/wishlist", {
-          headers: { authorization: token },
-        });
-        res && setWishlistLength([...res.data.wishlist].length);
-      } catch (error) {}
-    })()
+  useEffect(
+    () =>
+      (async () => {
+        if (token) {
+          try {
+            const res = await axios.get("/api/user/wishlist", {
+              headers: { authorization: token },
+            });
+            setWishlist(res.data.wishlist);
+          } catch (error) {
+            showToast(
+              "error",
+              "Something went Wrong while tring to load navbar"
+            );
+          }
+        }
+      })(),
+    [token]
   );
 
-  useEffect(() =>
+  useEffect(() => {
     (async () => {
-      try {
-        const res = await axios.get("/api/user/cart", {
-          headers: { authorization: token },
-        });
-        res && setCartLength([...res.data.cart].length);
-      } catch (error) {}
-    })()
-  );
+      if (token) {
+        try {
+          const res = await axios.get("/api/user/cart", {
+            headers: { authorization: token },
+          });
+          setCart(res.data.cart);
+        } catch (error) {
+          showToast("error", "Something went Wrong while tring to load navbar");
+        }
+      }
+    })();
+  }, [token]);
 
   const logoutHandler = () => {
     setToken(false);
     localStorage.removeItem("token");
+    setCart([]);
+    setWishlist([]);
     Navigate("/");
     showToast("success", "You're successfully logged out");
   };
+
   return (
     <div>
       <NavLink to="/cart" className={(isActive) => (isActive ? "active" : "")}>
@@ -56,13 +72,13 @@ const Navbar = () => {
         <div className="badge">
           <NavLink to="/wishlist">
             <i className="material-icons">favorite_border</i>
-            {token && <span className="notifications">{wishlistLength}</span>}
+            {token && <span className="notifications">{wishlist.length}</span>}
           </NavLink>
         </div>
         <div className="badge">
           <NavLink to="/cart">
             <i className="material-icons">shopping_cart</i>
-            {token && <span className="notifications">{cartLength}</span>}
+            {token && <span className="notifications">{cart.length}</span>}
           </NavLink>
         </div>
         {!token ? (
