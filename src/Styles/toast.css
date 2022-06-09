@@ -2,3 +2,8 @@
   top: 6rem;
   right: 1rem;
 }
+
+.Toastify__toast-theme--light {
+  background-color: black;
+  color: white;
+}
