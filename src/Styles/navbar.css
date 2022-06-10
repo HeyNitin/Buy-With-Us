@@ -21,6 +21,7 @@
   background-color: var(--wheat);
   color: var(--black);
   margin: -0.4rem 0 0 1rem;
+  text-decoration: none;
 }
 
 .nav-header .logo {
