@@ -5,7 +5,11 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/ce39af43-72a2-446a-8330-f534e715f36a/deploy-status)](https://app.netlify.com/sites/buy-with-us/deploys)
   
 </div>
-https://user-images.githubusercontent.com/23723159/173026284-c17f2c36-eb8d-4994-8408-ecf80a3f08c6.mp4
+
+
+https://user-images.githubusercontent.com/23723159/173061067-3e2d97ce-fb00-4be3-a622-2759f7bc37d5.mp4
+
+
 
 ## Table of Contents
 
