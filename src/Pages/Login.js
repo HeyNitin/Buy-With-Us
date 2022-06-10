@@ -3,7 +3,7 @@ import { useReducer } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
 import { useToast } from "../Components/Toast";
-import { emailValidator } from "../Services/emailValidator";
+import { emailValidator } from "../Services/validatorServices";
 import { useDocumentTitle } from "../Hooks/useDocumentTitle";
 
 const loginReducer = (state, action) => {

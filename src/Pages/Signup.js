@@ -3,9 +3,11 @@ import { useReducer } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
 import { useToast } from "../Components/Toast";
-import { nameValidator } from "../Services/nameValidator.js";
-import { emailValidator } from "../Services/emailValidator.js";
-import { passwordValidator } from "../Services/passwordValidator.js";
+import {
+  nameValidator,
+  emailValidator,
+  passwordValidator,
+} from "../Services/validatorServices";
 import { useDocumentTitle } from "../Hooks/useDocumentTitle.js";
 
 const signupRedcuer = (state, action) => {
