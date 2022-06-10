@@ -1,17 +1,25 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGithub,
+  faTwitter,
+  faLinkedin,
+} from "@fortawesome/free-brands-svg-icons";
+
 const Footer = () => {
   return (
-    <div className="main-footer">
-      <a
-        href="https://github.com/heynitin/lekhni-ui"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <i class="fa fa-brands fa-github fa-2x"></i>
-      </a>
-      {/* <FontAwesomeIcon icon="fa-brands fa-github" />
-      <FontAwesomeIcon icon="fa-brands fa-twitter" />
-      <FontAwesomeIcon icon="fa-brands fa-linkedin" /> */}
-    </div>
+    <footer className="footer">
+      <div className="social">
+        <a href="https://github.com/heynitin/Buy-With-Us" target="_blank">
+          <FontAwesomeIcon icon={faGithub} className="fa" />
+        </a>
+        <a href="https://twitter.com/07_Nitin_07" target="_blank">
+          <FontAwesomeIcon icon={faTwitter} className="fa" />
+        </a>
+        <a href="https://www.linkedin.com/in/heynitin/" target="_blank">
+          <FontAwesomeIcon icon={faLinkedin} className="fa" />
+        </a>
+      </div>
+    </footer>
   );
 };
 

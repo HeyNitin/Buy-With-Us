@@ -1,48 +1,125 @@
 import { useAuth } from "../Contexts/AuthContext";
-import { useLength } from "../Contexts/LengthContext";
+import { useCart } from "../Contexts/CartContext";
+import { useWishlist } from "../Contexts/WishlistContext";
 import axios from "axios";
+import { useToast } from "./Toast";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const CartCard = ({ product, setCart }) => {
+const CartCard = ({ product }) => {
   const { img, title, price, discount } = product;
   const { token } = useAuth();
-  const { setCartLength } = useLength();
+  const { setCart } = useCart();
+  const { wishlist, setWishlist } = useWishlist();
+  const { showToast } = useToast();
+  let Navigate = useNavigate();
+
+  const [isInWishList, setIsInWishlist] = useState(false);
+
+  useEffect(() => {
+    for (let item of wishlist) {
+      if (item._id === product._id) {
+        setIsInWishlist(true);
+      }
+    }
+  }, []);
+
   const addToWishlist = async () => {
     if (token) {
-      await axios.post(
-        "/api/user/wishlist",
-        { product },
-        {
-          headers: { authorization: token }
+      if (!isInWishList) {
+        try {
+          const res = await axios.post(
+            "/api/user/wishlist",
+            { product },
+            {
+              headers: { authorization: token },
+            }
+          );
+          setWishlist(res.data.wishlist);
+          removeFromCart(true);
+        } catch (error) {
+          showToast(
+            "error",
+            "something went wrong while trying to add item to wishlist"
+          );
         }
-      );
-      removeFromCart();
+      } else {
+        Navigate("/wishlist");
+      }
     }
   };
 
-  const removeFromCart = async () => {
-    const res = await axios.delete(`/api/user/cart/${product._id}`, {
-      headers: { authorization: token }
-    });
-    setCart([...res.data.cart]);
-    setCartLength([...res.data.cart].length);
+  const removeFromCart = async (fromWishlist = false) => {
+    try {
+      const res = await axios.delete(`/api/user/cart/${product._id}`, {
+        headers: { authorization: token },
+      });
+      setCart([...res.data.cart]);
+      showToast(
+        "success",
+        `${
+          fromWishlist
+            ? "Item has been moved to Wishlist"
+            : "Item has been removed from cart"
+        }`
+      );
+    } catch {
+      showToast(
+        "error",
+        "Something went wrong while trying to remove item from cart"
+      );
+    }
   };
 
   const increaseQuantity = async () => {
-    const res = await axios.post(
-      "/api/user/cart",
-      { product },
-      {
-        headers: { authorization: token }
-      }
-    );
-    setCart([...res.data.cart]);
+    try {
+      const res = await axios.post(
+        `/api/user/cart/${product._id}`,
+        { action: { type: "increment" } },
+        {
+          headers: { authorization: token },
+        }
+      );
+      setCart([...res.data.cart]);
+    } catch (error) {
+      showToast(
+        "error",
+        "Something went Wrong while trying to increase the quantity"
+      );
+    }
   };
-  // const decreaseQuantity = async () => {
-  //   const res = await axios.delete(`/api/user/cart/${product._id}`, {
-  //     headers: { authorization: token }
-  //   });
-  //   setCart([...res.data.cart]);
-  // };
+  const decreaseQuantity = async () => {
+    if (product.qty === 1) {
+      try {
+        const res = await axios.delete(`/api/user/cart/${product._id}`, {
+          headers: { authorization: token },
+        });
+        setCart([...res.data.cart]);
+        showToast("success", "Item has been removed from cart");
+      } catch (error) {
+        showToast(
+          "error",
+          "Something went wrong while tring to remove the item from cart"
+        );
+      }
+    }
+
+    try {
+      const res = await axios.post(
+        `/api/user/cart/${product._id}`,
+        { action: { type: "decrement" } },
+        {
+          headers: { authorization: token },
+        }
+      );
+      setCart([...res.data.cart]);
+    } catch (error) {
+      showToast(
+        "error",
+        "Something went wrong while tring to decreasse the quantity"
+      );
+    }
+  };
 
   return (
     <div className="card card-horizental">
@@ -56,7 +133,12 @@ const CartCard = ({ product, setCart }) => {
           <p className="text-grey"> {~~((discount * 100) / price)}% off</p>
           <div className="quantity">
             <p>Quantity</p>
-            <button className="button quantity-d" onClick={() => {}}>
+            <button
+              className="button quantity-d"
+              onClick={() => {
+                decreaseQuantity();
+              }}
+            >
               -
             </button>
             <input placeholder={product.qty} />
@@ -73,7 +155,7 @@ const CartCard = ({ product, setCart }) => {
             Remove from Cart
           </button>
           <button className="button" onClick={() => addToWishlist()}>
-            Move to Wishlist
+            {isInWishList ? "Go to Wishlist" : "Move to Wishlist"}
           </button>
         </footer>
       </div>

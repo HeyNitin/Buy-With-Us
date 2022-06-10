@@ -1,6 +1,7 @@
 .homepage-catagories {
   display: flex;
   margin-top: 6rem;
+  flex-wrap: wrap;
 }
 
 .homepage-catagories .card {
@@ -53,9 +54,9 @@
 
 .homepage-collection {
   display: flex;
-  gap: 3rem;
   width: 90%;
   margin: 0 auto 0 auto;
+  flex-wrap: wrap;
 }
 
 .homepage-collection .card img {
@@ -67,15 +68,11 @@
   background-color: var(--off-white);
   color: var(--black);
   height: 15rem;
+  width: fit-content;
 }
 
 .homepage-collection .card .content {
   height: 17rem;
-}
-
-.homepage-collection .card .content .footer a p {
-  font-weight: bold;
-  font-size: larger;
 }
 
 .homepage-collection .card .content .footer p:hover {
@@ -84,6 +81,9 @@
   cursor: unset;
 }
 
-.card .header a {
+.homepage-collection .card .content .footer p:first-child {
   font-weight: bold;
+  font-size: larger;
+  cursor: pointer;
+  text-decoration: underline;
 }

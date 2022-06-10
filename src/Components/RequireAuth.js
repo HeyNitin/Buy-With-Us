@@ -4,10 +4,11 @@ const RequireAuth = ({ children }) => {
   const { token } = useAuth();
   const res = localStorage.getItem("token");
   const location = useLocation();
+
   return res || token ? (
     children
   ) : (
-    <Navigate to="/login" state={{ from: location }} replace />
+    <Navigate to="/login" state={{ from: location }} replace={true} />
   );
 };
 

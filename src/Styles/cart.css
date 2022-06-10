@@ -121,3 +121,22 @@
 .mrp {
   text-decoration: line-through;
 }
+
+.cart-container .empty-cart {
+  color: var(--white);
+  font-size: larger;
+  position: absolute;
+  margin: 10rem 20rem;
+}
+.cart-container .empty-cart span {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.cart-container {
+  min-height: 72vh;
+}
+
+.cart-container button:disabled {
+  cursor: not-allowed;
+}

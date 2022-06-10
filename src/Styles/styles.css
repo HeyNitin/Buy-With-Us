@@ -6,6 +6,7 @@
 @import "./signin.css";
 @import "./products.css";
 @import "./wishlist.css";
+@import "./footer.css";
 
 .App {
   font-family: sans-serif;

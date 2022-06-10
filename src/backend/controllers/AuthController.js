@@ -20,10 +20,10 @@ export const signupHandler = function (schema, request) {
     const foundUser = schema.users.findBy({ email });
     if (foundUser) {
       return new Response(
-        422,
+        200,
         {},
         {
-          errors: ["Unprocessable Entity. Email Already Exists."],
+          message: ["Unprocessable Entity. Email Already Exists."],
         }
       );
     }

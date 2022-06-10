@@ -32,6 +32,8 @@
   grid-template-columns: repeat(auto-fit, 13rem);
   gap: 2.8rem;
   width: calc(100% - 14rem);
+  height: fit-content;
+  margin-bottom: 8rem;
 }
 
 .products-container .card {
@@ -93,4 +95,12 @@
   background-color: var(--white);
   padding: 0.4rem;
   border-radius: 50%;
+}
+
+.products-container .card .footer {
+  margin: 0;
+}
+
+.main-container-products {
+  min-height: 88vh;
 }
