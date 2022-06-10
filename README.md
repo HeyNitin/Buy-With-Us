@@ -2,10 +2,9 @@
 
 ![logo](https://user-images.githubusercontent.com/23723159/173027188-ed4d4e10-cac7-445f-99e0-da560d2838ef.png)
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ce39af43-72a2-446a-8330-f534e715f36a/deploy-status)](https://app.netlify.com/sites/buy-with-us/deploys)
+  
 </div>
-
-[![Netlify Status](https://api.netlify.com/api/v1/badges/1df6ff35-76e4-4223-8c83-be2ca14adf20/deploy-status)](https://app.netlify.com/sites/buy-with-us/deploys?filter=dev)
-
 https://user-images.githubusercontent.com/23723159/173026284-c17f2c36-eb8d-4994-8408-ecf80a3f08c6.mp4
 
 ## Table of Contents
