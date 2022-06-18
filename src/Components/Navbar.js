@@ -15,27 +15,23 @@ const Navbar = () => {
 
   useEffect(
     () =>
+      token &&
       (async () => {
-        if (token) {
-          try {
-            const res = await axios.get("/api/user/wishlist", {
-              headers: { authorization: token },
-            });
-            setWishlist(res.data.wishlist);
-          } catch (error) {
-            showToast(
-              "error",
-              "Something went Wrong while tring to load navbar"
-            );
-          }
+        try {
+          const res = await axios.get("/api/user/wishlist", {
+            headers: { authorization: token },
+          });
+          setWishlist(res.data.wishlist);
+        } catch (error) {
+          showToast("error", "Something went Wrong while tring to load navbar");
         }
       })(),
     [token]
   );
 
   useEffect(() => {
-    (async () => {
-      if (token) {
+    token &&
+      (async () => {
         try {
           const res = await axios.get("/api/user/cart", {
             headers: { authorization: token },
@@ -44,8 +40,7 @@ const Navbar = () => {
         } catch (error) {
           showToast("error", "Something went Wrong while tring to load navbar");
         }
-      }
-    })();
+      })();
   }, [token]);
 
   const logoutHandler = () => {

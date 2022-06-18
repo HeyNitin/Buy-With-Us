@@ -67,7 +67,7 @@ const Login = () => {
           });
           setToken(data.encodedToken);
           state.rememberMe &&
-            localStorage.setItem("token", JSON.stringify(encodedToken));
+            localStorage.setItem("token", JSON.stringify(data.encodedToken));
           showToast("success", "You're successfully logged in");
         } catch (error) {
           dispatch({ type: "Error", payload: "Wrong Credentials" });

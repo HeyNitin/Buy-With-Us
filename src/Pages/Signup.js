@@ -20,8 +20,6 @@ const signupRedcuer = (state, action) => {
       return { ...state, Password: action.payload };
     case "ConfirmPassword":
       return { ...state, ConfirmPassword: action.payload };
-    case "rememberMe":
-      return { ...state, rememberMe: action.payload };
     case "tnc":
       return { ...state, tnc: action.payload };
     case "Error":
@@ -43,7 +41,6 @@ const initialValue = {
   ConfirmPassword: "",
   Error: false,
   ErrorMsg: "",
-  rememberMe: false,
   tnc: false,
 };
 const Signup = () => {
@@ -104,8 +101,6 @@ const Signup = () => {
         });
         res.status === 201 &&
           (setToken(res.data.encodedToken),
-          state.rememberMe &&
-            localStorage.setItem("token", JSON.stringify(encodedToken)),
           showToast("success", "You're successfully logged in"));
         res.status === 200 &&
           (showToast("info", "Email already exists"),
@@ -165,17 +160,6 @@ const Signup = () => {
             type="password"
             placeholder="********"
           />
-          <div>
-            <input
-              onClick={(e) =>
-                dispatch({ type: "rememberMe", payload: e.target.checked })
-              }
-              value={state.rememberMe}
-              id="remember-me"
-              type="checkbox"
-            />
-            <label htmlFor="remember-me">Remember me</label>
-          </div>
           <div>
             <input
               onClick={(e) =>
