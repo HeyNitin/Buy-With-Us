@@ -101,7 +101,7 @@ const Signup = () => {
         });
         res.status === 201 &&
           (setToken(res.data.encodedToken),
-          showToast("success", "You're successfully logged in"));
+          showToast("success", "You're successfully Signed Up"));
         res.status === 200 &&
           (showToast("info", "Email already exists"),
           dispatch({
@@ -109,7 +109,7 @@ const Signup = () => {
             payload: "Email already exists in database",
           }));
       } catch (error) {
-        showToast("error", "Something went wrong while tring to sign you in");
+        showToast("error", "Something went wrong while tring to sign you up");
       }
     }
   };
