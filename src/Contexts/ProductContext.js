@@ -58,7 +58,10 @@ const productReducer = (state, action) => {
         ratingChecked: [false, false, false, false],
         priceChecked: [false, false],
         rating: 1,
-        allProducts: state.allProducts.sort(() => Math.random() - 0.5),
+        allProducts:
+          state.priceChecked[0] || state.priceChecked[1]
+            ? state.allProducts.sort(() => Math.random() - 0.5)
+            : state.allProducts,
       };
 
     default:
