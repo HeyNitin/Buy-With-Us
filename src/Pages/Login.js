@@ -65,6 +65,7 @@ const Login = () => {
             email: state.email.toLowerCase(),
             password: state.password,
           });
+
           setToken(data.encodedToken);
           state.rememberMe &&
             localStorage.setItem("token", JSON.stringify(data.encodedToken));
