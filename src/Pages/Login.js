@@ -118,7 +118,7 @@ const Login = () => {
               onClick={(e) =>
                 dispatch({ type: "rememberMe", payload: e.target.checked })
               }
-              value={state.rememberMe}
+              checked={state.rememberMe}
               id="remember-me"
               type="checkbox"
             />
@@ -132,7 +132,7 @@ const Login = () => {
                   payload: e.target.checked,
                 })
               }
-              value={state.defaultCredentials}
+              checked={state.defaultCredentials}
               id="defaultCredentials"
               type="checkbox"
             />
