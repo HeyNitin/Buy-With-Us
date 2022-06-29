@@ -45,6 +45,7 @@ const initialValue = {
   rememberMe: false,
   error: false,
   errorMsg: "",
+  defaultCredentials: false
 };
 
 const Login = () => {
