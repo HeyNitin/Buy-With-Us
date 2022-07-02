@@ -45,6 +45,7 @@ const initialValue = {
   rememberMe: false,
   error: false,
   errorMsg: "",
+  defaultCredentials: false
 };
 
 const Login = () => {
@@ -65,9 +66,10 @@ const Login = () => {
             email: state.email.toLowerCase(),
             password: state.password,
           });
+
           setToken(data.encodedToken);
           state.rememberMe &&
-            localStorage.setItem("token", JSON.stringify(encodedToken));
+            localStorage.setItem("token", JSON.stringify(data.encodedToken));
           showToast("success", "You're successfully logged in");
         } catch (error) {
           dispatch({ type: "Error", payload: "Wrong Credentials" });
@@ -116,7 +118,7 @@ const Login = () => {
               onClick={(e) =>
                 dispatch({ type: "rememberMe", payload: e.target.checked })
               }
-              value={state.rememberMe}
+              checked={state.rememberMe}
               id="remember-me"
               type="checkbox"
             />
@@ -130,7 +132,7 @@ const Login = () => {
                   payload: e.target.checked,
                 })
               }
-              value={state.defaultCredentials}
+              checked={state.defaultCredentials}
               id="defaultCredentials"
               type="checkbox"
             />
