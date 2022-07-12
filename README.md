@@ -20,18 +20,18 @@ https://user-images.githubusercontent.com/23723159/173061067-3e2d97ce-fb00-4be3-
 - [Screenshots](#screenshots)
 - [Connect with me](#-connect-with-me)
 
-## About -
+## About
 
 Buy With Us is an E-commerce website that let's you browse through a variety of products in clothing category.
 
-## Technologies Used -
+## Technologies Used
 
 - ReactJS
 - Vanilla CSS
 - [Lekhni-UI](https://github.com/HeyNitin/Lekhni-UI) component library
 - [Mockbee](https://github.com/neogcamp/mockBee) for backend
 
-## Live link -
+## Live link
 
 Live site : [BuyWithUs](https://buy-with-us.netlify.app/)
 
